@@ -1,5 +1,8 @@
 import '@phosphor-icons/web/regular';
 import '@phosphor-icons/web/light';
+import Swiper from 'swiper';
+import { A11y, Keyboard, Navigation } from 'swiper/modules';
+import 'swiper/css';
 
 // Reveal on scroll
 const revealObserver = new IntersectionObserver((entries) => {
@@ -49,32 +52,30 @@ document.addEventListener('keydown', (event) => {
     }
 });
 
-// Horizontal gallery (About page): arrow buttons scroll by most of a view; disabled at either end.
+// Project gallery (About page): Swiper with the page's own arrow buttons.
 document.querySelectorAll('[data-gallery]').forEach((gallery) => {
-    const track = gallery.querySelector('[data-gallery-track]');
-    const prev = gallery.querySelector('[data-gallery-prev]');
-    const next = gallery.querySelector('[data-gallery-next]');
-    const smooth = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const prevEl = gallery.querySelector('[data-gallery-prev]');
+    const nextEl = gallery.querySelector('[data-gallery-next]');
 
-    const update = () => {
-        prev.disabled = track.scrollLeft <= 2;
-        next.disabled = track.scrollLeft + track.clientWidth >= track.scrollWidth - 2;
-    };
-
-    // Scroll by whole cards so each step lands cleanly on a card edge.
-    const step = () => {
-        const card = track.querySelector('li');
-        const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
-        const cardWidth = card.offsetWidth + gap;
-
-        return Math.max(1, Math.floor(track.clientWidth / cardWidth) - 1) * cardWidth;
-    };
-
-    prev.addEventListener('click', () => track.scrollBy({ left: -step(), behavior: smooth }));
-    next.addEventListener('click', () => track.scrollBy({ left: step(), behavior: smooth }));
-    track.addEventListener('scroll', update, { passive: true });
-    window.addEventListener('resize', update);
-    update();
+    new Swiper(gallery.querySelector('[data-gallery-swiper]'), {
+        modules: [Navigation, Keyboard, A11y],
+        slidesPerView: 'auto',
+        spaceBetween: 16,
+        speed: reduceMotion ? 0 : 600,
+        grabCursor: true,
+        watchOverflow: true,
+        keyboard: { enabled: true, onlyInViewport: true },
+        navigation: { prevEl, nextEl, disabledClass: 'is-disabled' },
+        // Reuse the buttons' translated aria-labels (Swiper's a11y module would otherwise replace them).
+        a11y: {
+            prevSlideMessage: prevEl.getAttribute('aria-label'),
+            nextSlideMessage: nextEl.getAttribute('aria-label'),
+        },
+        breakpoints: {
+            768: { spaceBetween: 24 },
+        },
+    });
 });
 
 // Blog post: copy the article link, briefly confirm in the button label.

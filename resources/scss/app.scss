@@ -20,6 +20,8 @@
 
     body {
         @apply bg-ink font-sans text-paper antialiased;
+        // Long unbreakable words (common in Armenian) wrap instead of overflowing on small screens.
+        overflow-wrap: break-word;
     }
 
     ::selection {
@@ -219,6 +221,11 @@
         blockquote {
             @apply my-40 border-l-2 border-primary pl-24 text-[22px] font-medium leading-snug text-paper md:text-[28px];
         }
+    }
+
+    // Swiper sets .is-disabled on the gallery arrows at either end.
+    .gallery-arrow.is-disabled {
+        @apply pointer-events-none opacity-30;
     }
 
     .studio-word {

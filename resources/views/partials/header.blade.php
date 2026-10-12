@@ -13,19 +13,19 @@
     <div class="header-bar mx-auto grid h-64 grid-cols-[1fr_auto] items-center gap-12 rounded-[22px] border border-transparent px-12 transition-colors duration-300 md:h-80 md:px-24 lg:grid-cols-[1fr_auto_1fr]">
         <a href="{{ route('home') }}" class="flex w-fit items-center gap-10" aria-label="{{ __('common.home_label') }}">
             <span class="grid h-40 w-40 place-items-center rounded-btn-small bg-paper text-ps font-bold text-ink">IM</span>
-            <span class="text-p font-bold tracking-[0.16em]">I&nbsp;MUST</span>
+            <span class="text-p font-bold tracking-[0.16em] lg:hidden xl:inline">I&nbsp;MUST</span>
         </a>
 
         <nav class="hidden items-center gap-4 rounded-btn bg-ink/25 p-5 backdrop-blur-md lg:flex" aria-label="Main">
             @foreach ($navLinks as $route => $label)
                 <a href="{{ route($route) }}" @if (request()->routeIs(str_replace('.index', '.*', $route))) aria-current="page" @endif
-                   class="whitespace-nowrap rounded-btn px-18 py-10 text-ps font-semibold text-paper/80 transition-colors hover:text-paper aria-[current=page]:bg-paper aria-[current=page]:text-ink">{{ $label }}</a>
+                   class="whitespace-nowrap rounded-btn px-12 py-10 text-ps font-semibold xl:px-18 text-paper/80 transition-colors hover:text-paper aria-[current=page]:bg-paper aria-[current=page]:text-ink">{{ $label }}</a>
             @endforeach
         </nav>
 
         <div class="flex items-center justify-end gap-8">
             @include('partials.language-switcher', ['class' => 'hidden lg:block'])
-            <a href="{{ route('contact') }}" class="btn hidden bg-paper !py-12 text-ink hover:bg-white lg:inline-flex">
+            <a href="{{ route('contact') }}" class="btn hidden bg-paper !py-12 text-ink hover:bg-white lg:inline-flex lg:!px-18 xl:!px-28">
                 {{ __('common.cta_contact') }}
             </a>
 

@@ -11,10 +11,6 @@
     // and '#' with real portfolio / case-study links.
     $founderLinks = ['marketing' => '#', 'development' => '#', 'video' => '#'];
     $projectSeeds = ['imust-project-website', 'imust-project-social', 'imust-project-video', 'imust-project-ads', 'imust-project-brand'];
-
-    // Left/right padding that lines the gallery's first card up with the page container
-    // (container max widths: sm 640, md 768, lg 1100, xl 1280, 2xl 1712; gutters 15px / 16px).
-    $galleryInset = 'px-15 scroll-px-15 sm:px-[calc((100vw-640px)/2+15px)] sm:scroll-px-[calc((100vw-640px)/2+15px)] md:px-[calc((100vw-768px)/2+15px)] md:scroll-px-[calc((100vw-768px)/2+15px)] lg:px-[calc((100vw-1100px)/2+16px)] lg:scroll-px-[calc((100vw-1100px)/2+16px)] xl:px-[calc((100vw-1280px)/2+16px)] xl:scroll-px-[calc((100vw-1280px)/2+16px)] 2xl:px-[calc((100vw-1712px)/2+16px)] 2xl:scroll-px-[calc((100vw-1712px)/2+16px)]';
 @endphp
 
 @section('content')
@@ -76,12 +72,12 @@
                 <h2 class="mt-16 text-[34px] font-bold leading-[1.05] tracking-tight md:text-[56px] xl:text-[72px]">{{ __('about.founders.title') }}</h2>
             </div>
 
-            <div class="grid gap-20 md:grid-cols-3 md:gap-24">
+            <div class="grid gap-20 md:gap-24 lg:grid-cols-3">
                 @foreach ($founders as $id => $founder)
                     {{-- The #anchor target stays untransformed; only its child animates. --}}
                     <article id="{{ $id }}" class="scroll-mt-[112px]">
                         <a href="{{ $founderLinks[$id] ?? '#' }}" data-reveal style="--d:{{ $loop->index }}"
-                           class="founder-card group relative isolate flex aspect-[3/4] flex-col justify-end overflow-hidden rounded-[24px] border border-white/10 p-24 md:aspect-[3/4.4] md:p-28">
+                           class="founder-card group relative isolate flex min-h-[440px] flex-col justify-end overflow-hidden rounded-[24px] border border-white/10 p-24 sm:min-h-[520px] md:p-28 lg:min-h-0 lg:aspect-[3/4.4]">
                             <img src="https://picsum.photos/seed/imust-founder-{{ $id }}/900/1200?grayscale" width="900" height="1200" loading="lazy" alt=""
                                  class="absolute inset-0 -z-1 h-full w-full object-cover transition duration-700 ease-out group-hover:scale-[1.05]">
                             <div class="absolute inset-0 -z-1 bg-gradient-to-t from-ink via-ink/50 to-ink/0" aria-hidden="true"></div>
@@ -118,7 +114,7 @@
                             <img src="https://picsum.photos/seed/imust-network-{{ $loop->index }}/600/600?grayscale" width="600" height="600" loading="lazy" alt=""
                                  class="absolute inset-0 -z-1 h-full w-full object-cover opacity-80 transition duration-700 ease-out group-hover:scale-[1.05] group-hover:opacity-100">
                             <div class="absolute inset-0 -z-1 bg-gradient-to-t from-ink via-ink/30 to-ink/0" aria-hidden="true"></div>
-                            <p class="text-p font-semibold leading-tight">{{ $person['name'] }}</p>
+                            <p class="text-ps font-semibold leading-tight sm:text-p">{{ $person['name'] }}</p>
                             <p class="text-ps text-paper/70">{{ $person['role'] }}</p>
                         </a>
                     </li>
@@ -127,26 +123,31 @@
         </div>
     </section>
 
-    {{-- Projects: full-width horizontal gallery, swipe or arrow buttons --}}
-    <section class="pb-96 md:pb-144" data-gallery>
+    {{--
+        Projects: Swiper slider. The slider sits in the page container with overflow visible,
+        so the first slide lines up with the heading and the rest run off the right edge.
+    --}}
+    <section class="overflow-hidden pb-96 md:pb-144" data-gallery>
         <div class="container flex flex-col justify-between gap-20 pb-40 md:flex-row md:items-end md:pb-56" data-reveal>
             <div>
                 <h2 class="text-[34px] font-bold leading-[1.05] tracking-tight md:text-[56px] xl:text-[72px]">{{ __('about.projects.title') }}</h2>
                 <p class="mt-16 max-w-[48ch] text-p text-muted md:text-pm">{{ __('about.projects.lead') }}</p>
             </div>
             <div class="flex gap-8">
-                <button type="button" data-gallery-prev class="glass-pill grid h-56 w-56 place-items-center rounded-full transition-colors hover:bg-paper hover:text-ink disabled:pointer-events-none disabled:opacity-30" aria-label="{{ __('about.projects.prev') }}">
+                <button type="button" data-gallery-prev class="gallery-arrow glass-pill grid h-56 w-56 place-items-center rounded-full transition-colors hover:bg-paper hover:text-ink" aria-label="{{ __('about.projects.prev') }}">
                     <i class="ph ph-arrow-left text-[20px]" aria-hidden="true"></i>
                 </button>
-                <button type="button" data-gallery-next class="glass-pill grid h-56 w-56 place-items-center rounded-full transition-colors hover:bg-paper hover:text-ink disabled:pointer-events-none disabled:opacity-30" aria-label="{{ __('about.projects.next') }}">
+                <button type="button" data-gallery-next class="gallery-arrow glass-pill grid h-56 w-56 place-items-center rounded-full transition-colors hover:bg-paper hover:text-ink" aria-label="{{ __('about.projects.next') }}">
                     <i class="ph ph-arrow-right text-[20px]" aria-hidden="true"></i>
                 </button>
             </div>
         </div>
 
-        <ul data-gallery-track class="flex snap-x snap-mandatory gap-16 overflow-x-auto pb-8 [scrollbar-width:none] md:gap-24 [&::-webkit-scrollbar]:hidden {{ $galleryInset }}">
+        <div class="container">
+            <div class="swiper !overflow-visible" data-gallery-swiper>
+                <ul class="swiper-wrapper">
             @foreach (__('about.projects.items') as $project)
-                <li class="w-[80vw] shrink-0 snap-start sm:w-[420px] lg:w-[460px] xl:w-[520px]" data-reveal style="--d:{{ min($loop->index, 3) }}">
+                <li class="swiper-slide !w-[80vw] sm:!w-[420px] lg:!w-[460px] xl:!w-[520px]" data-reveal style="--d:{{ min($loop->index, 3) }}">
                     <a href="#" class="group relative isolate flex aspect-[4/5] flex-col justify-end overflow-hidden rounded-[24px] border border-white/10 p-24 md:p-28">
                         <img src="https://picsum.photos/seed/{{ $projectSeeds[$loop->index] ?? 'imust-project-'.$loop->index }}/1000/1250?grayscale" width="1000" height="1250" loading="lazy" alt=""
                              class="absolute inset-0 -z-1 h-full w-full object-cover transition duration-700 ease-out group-hover:scale-[1.05]">
@@ -159,7 +160,9 @@
                     </a>
                 </li>
             @endforeach
-        </ul>
+                </ul>
+            </div>
+        </div>
     </section>
 
     @include('partials.cta-band', ['title' => __('about.cta.title')])

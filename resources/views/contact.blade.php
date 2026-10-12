@@ -13,7 +13,7 @@
 
 @section('content')
     {{-- Split screen: office photo with details (left), form (right). Stacks on mobile. --}}
-    <section class="grid gap-12 p-12 md:gap-16 md:p-16 lg:min-h-[100dvh] lg:grid-cols-2">
+    <section class="grid grid-cols-1 gap-12 p-12 md:gap-16 md:p-16 lg:min-h-[100dvh] lg:grid-cols-2">
         {{-- Office panel --}}
         <div class="relative isolate flex min-h-[80dvh] flex-col justify-end overflow-hidden rounded-[28px] p-24 pt-120 md:p-40 md:pt-144 lg:min-h-0 xl:p-56">
             <div class="cinema-media absolute inset-0 -z-1">

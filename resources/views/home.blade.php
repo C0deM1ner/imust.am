@@ -55,7 +55,7 @@
 
         <div class="grid gap-px bg-line lg:grid-cols-3">
             @foreach (__('home.team.roles') as $role)
-                <a href="{{ route('about') }}" class="group relative isolate flex min-h-[70dvh] flex-col justify-end overflow-hidden bg-ink p-24 md:p-40 lg:min-h-[88dvh]"
+                <a href="{{ route('about') }}" class="group relative isolate flex min-h-[400px] flex-col justify-end overflow-hidden bg-ink p-24 sm:min-h-[480px] md:min-h-[560px] md:p-40 lg:min-h-[88dvh] lg:p-32 xl:p-40"
                    data-reveal style="--d:{{ $loop->index }}">
                     <img src="https://picsum.photos/seed/{{ $roleImages[$loop->index] }}/1000/1600?grayscale" width="1000" height="1600" loading="lazy" alt="{{ $role['alt'] }}"
                          class="absolute inset-0 -z-1 h-full w-full object-cover opacity-70 transition duration-700 ease-out group-hover:scale-[1.04] group-hover:opacity-90">
@@ -65,7 +65,7 @@
                         <i class="ph ph-arrow-right text-[20px]"></i>
                     </span>
 
-                    <h3 class="text-[36px] font-bold leading-none tracking-tight md:text-[48px]">{{ $role['title'] }}</h3>
+                    <h3 class="text-[32px] font-bold leading-none tracking-tight md:text-[44px] lg:text-[32px] xl:text-[44px]">{{ $role['title'] }}</h3>
                     <p class="mt-12 max-w-[30ch] text-p text-paper/75 md:text-pm">{{ $role['text'] }}</p>
                 </a>
             @endforeach

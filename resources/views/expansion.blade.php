@@ -44,7 +44,7 @@
                 @foreach (__('expansion.offerings') as $offering)
                     @php($media = $offeringMedia[$loop->index] ?? ['icon' => 'ph-sparkle', 'seed' => 'imust-studio-'.$loop->index])
                     <li class="sticky" style="top: calc(96px + {{ $loop->index }} * 20px)">
-                        <article class="relative isolate flex min-h-[68dvh] flex-col justify-end overflow-hidden rounded-[24px] border border-white/10 p-24 shadow-[0_-20px_60px_rgba(5,7,10,0.6)] md:min-h-[72dvh] md:p-48 xl:p-64">
+                        <article class="relative isolate flex min-h-[68dvh] flex-col justify-end overflow-hidden rounded-[24px] border border-white/10 bg-surface p-24 shadow-[0_-20px_60px_rgba(5,7,10,0.6)] md:min-h-[72dvh] md:p-48 xl:p-64">
                             <img src="https://picsum.photos/seed/{{ $media['seed'] }}/2000/1200?grayscale" width="2000" height="1200" loading="lazy" alt="{{ $offering['alt'] }}"
                                  class="absolute inset-0 -z-1 h-full w-full object-cover">
                             <div class="absolute inset-0 -z-1 bg-gradient-to-t from-ink via-ink/50 to-ink/10" aria-hidden="true"></div>
