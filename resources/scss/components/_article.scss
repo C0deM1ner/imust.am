@@ -1,0 +1,44 @@
+@layer components {
+    // "All articles" / "All projects" link above a page title.
+    .back-link {
+        @apply inline-flex items-center gap-8 text-ps font-semibold text-paper/80 transition-colors hover:text-paper;
+    }
+
+    // Long-form text: blog posts and portfolio projects (no typography plugin; blocks come from lang files).
+    .article-body {
+        @apply max-w-[68ch] text-pm-mobile text-paper/85 md:text-pm lg:col-span-8;
+
+        > * + * {
+            @apply mt-20;
+        }
+
+        .lead-in {
+            @apply text-[20px] font-medium leading-relaxed text-paper md:text-[24px];
+        }
+
+        h2 {
+            @apply mt-56 text-[26px] font-bold leading-tight tracking-tight text-paper md:text-[32px];
+        }
+
+        p {
+            @apply leading-relaxed;
+        }
+
+        ul {
+            @apply flex flex-col gap-12;
+        }
+
+        li {
+            @apply relative pl-28 leading-relaxed;
+
+            &::before {
+                content: '';
+                @apply absolute left-4 top-[0.7em] h-8 w-8 rounded-full bg-primary;
+            }
+        }
+
+        blockquote {
+            @apply my-40 border-l-2 border-primary pl-24 text-[22px] font-medium leading-snug text-paper md:text-[28px];
+        }
+    }
+}

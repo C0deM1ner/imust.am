@@ -4,19 +4,20 @@
 @section('description', __('expansion.meta_description'))
 
 @php
-    // TODO: replace placeholder photography (picsum.photos) with real studio images.
+    // TODO: AI-generated photography (Gemini). Replace with real studio photos when available.
     $offeringMedia = [
-        ['icon' => 'ph-graduation-cap', 'seed' => 'imust-studio-education'],
-        ['icon' => 'ph-presentation', 'seed' => 'imust-studio-hall'],
-        ['icon' => 'ph-camera', 'seed' => 'imust-studio-photozone'],
-        ['icon' => 'ph-video-camera', 'seed' => 'imust-studio-production'],
+        ['icon' => 'ph-graduation-cap', 'image' => 'images/site/studio-education.webp'],
+        ['icon' => 'ph-presentation', 'image' => 'images/site/studio-hall.webp'],
+        ['icon' => 'ph-camera', 'image' => 'images/site/studio-photozone.webp'],
+        ['icon' => 'ph-video-camera', 'image' => 'images/site/studio-production.webp'],
     ];
+    $heroImage = asset('images/site/studio-hero.webp');
 @endphp
 
 @section('content')
     {{-- ─── Hero: full-bleed photo, title top-left, giant "Studio" word across the bottom edge ─── --}}
     <section class="page-hero page-hero-split">
-        <x-cinema-media src="https://picsum.photos/seed/imust-studio-hero/2400/1500?grayscale" :alt="__('expansion.image_alt')" variant="studio" />
+        <x-cinema-media :src="$heroImage" :alt="__('expansion.image_alt')" variant="studio" />
 
         <div class="container page-hero-top">
             <div class="max-w-3xl">
@@ -34,10 +35,10 @@
         <div class="container">
             <ol class="expansion-offerings-list">
                 @foreach (__('expansion.offerings') as $offering)
-                    @php($media = $offeringMedia[$loop->index] ?? ['icon' => 'ph-sparkle', 'seed' => 'imust-studio-'.$loop->index])
+                    @php($media = $offeringMedia[$loop->index] ?? ['icon' => 'ph-sparkle', 'image' => 'images/site/studio-hero.webp'])
                     <li class="sticky" style="top: calc(96px + {{ $loop->index }} * 20px)">
                         <article class="expansion-panel">
-                            <img src="https://picsum.photos/seed/{{ $media['seed'] }}/2000/1200?grayscale" width="2000" height="1200" loading="lazy" alt="{{ $offering['alt'] }}" class="expansion-panel-img">
+                            <img src="{{ asset($media['image']) }}" width="1024" height="617" loading="lazy" alt="{{ $offering['alt'] }}" class="expansion-panel-img">
                             <div class="expansion-panel-shade" aria-hidden="true"></div>
 
                             <div class="expansion-panel-grid">

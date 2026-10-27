@@ -7,16 +7,18 @@
     $founders = __('about.founders.people');
     $roleIcons = ['ph-megaphone', 'ph-code', 'ph-film-slate'];
 
-    // TODO: replace placeholder photography (picsum.photos) with real portraits and project images,
-    // and '#' with real portfolio / case-study links.
+    // TODO: replace placeholder portraits (picsum.photos) with real photos of the founders and partners,
+    // and '#' with links to their portfolios. The hero photo is AI-generated (Gemini).
     $founderLinks = ['marketing' => '#', 'development' => '#', 'video' => '#'];
-    $projectSeeds = ['imust-project-website', 'imust-project-social', 'imust-project-video', 'imust-project-ads', 'imust-project-brand'];
+    $heroImage = asset('images/site/about-hero.webp');
+    // The slider shows the latest portfolio projects.
+    $projects = array_slice(config('portfolio.projects'), 0, 5, true);
 @endphp
 
 @section('content')
     {{-- ─── Hero: full-bleed photo, statement and the union equation across the bottom ─── --}}
     <section class="page-hero">
-        <x-cinema-media src="https://picsum.photos/seed/imust-about-team/2400/1500?grayscale" :alt="__('about.image_alt')" />
+        <x-cinema-media :src="$heroImage" :alt="__('about.image_alt')" />
 
         <div class="container about-hero-content">
             <p class="eyebrow" data-reveal>{{ __('about.eyebrow') }}</p>
@@ -134,14 +136,14 @@
         <div class="container">
             <div class="swiper" data-gallery-swiper>
                 <ul class="swiper-wrapper">
-                    @foreach (__('about.projects.items') as $project)
+                    @foreach ($projects as $slug => $project)
                         <li class="swiper-slide project-slide" data-reveal style="--d:{{ min($loop->index, 3) }}">
-                            <a href="#" class="photo-card project-card">
-                                <img src="https://picsum.photos/seed/{{ $projectSeeds[$loop->index] ?? 'imust-project-'.$loop->index }}/1000/1250?grayscale" width="1000" height="1250" loading="lazy" alt="" class="photo-card-img">
+                            <a href="{{ route('portfolio.show', ['slug' => $slug]) }}" class="photo-card project-card">
+                                <img src="{{ asset($project['image']) }}" width="1024" height="687" loading="lazy" alt="" class="photo-card-img">
                                 <div class="photo-card-shade" aria-hidden="true"></div>
-                                <p class="project-card-category">{{ $project['category'] }}</p>
+                                <p class="project-card-category">{{ __("portfolio.tags.{$project['tags'][0]}") }}</p>
                                 <p class="project-card-title">
-                                    {{ $project['title'] }}
+                                    {{ __("portfolio.projects.{$slug}.title") }}
                                     <i class="ph ph-arrow-up-right" aria-hidden="true"></i>
                                 </p>
                             </a>

@@ -1,0 +1,11 @@
+@layer components {
+    // Title block for pages without a hero photo (partials/page-intro.blade.php). The top padding
+    // clears the fixed header.
+    .page-intro {
+        @apply pb-40 pt-144 md:pb-56 md:pt-180;
+
+        &-title {
+            @apply max-w-5xl;
+        }
+    }
+}

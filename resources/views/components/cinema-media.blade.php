@@ -1,7 +1,7 @@
 {{--
     Full-bleed hero photo with a dark shade and gradient on top. Sits behind the section content.
     variant sets the overlay: home, article (about, blog post), office (contact),
-    page (services, blog), studio.
+    page (services), studio.
 --}}
 @props(['src', 'alt' => '', 'variant' => 'article', 'width' => 2400, 'height' => 1500])
 

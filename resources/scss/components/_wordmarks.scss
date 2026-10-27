@@ -7,9 +7,10 @@
         font-size: 27vw;
         line-height: .74;
         letter-spacing: -.05em;
-        // line-height is tighter than the glyphs, so leave room for the round letters' overshoot
-        // below the baseline; the hero section clips anything past its bottom edge.
-        padding-bottom: .03em;
+        // Pulls the baseline down to the bottom of the screen. The line box leaves .03em under the
+        // baseline and the round letters (U, S) dip .016em below it, so -.013em puts their lowest
+        // point right on the edge, which the hero section clips at.
+        margin-bottom: -.013em;
     }
 
     // Clips each letter for the rise-in. Room on every side (cancelled by negative margins, so the

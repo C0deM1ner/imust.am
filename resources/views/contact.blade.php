@@ -16,8 +16,8 @@
     <section class="contact-split">
         {{-- Office panel --}}
         <div class="contact-office">
-            {{-- TODO: replace with a photo of the office entrance in Avan. --}}
-            <x-cinema-media src="https://picsum.photos/seed/imust-office-avan/1400/1800?grayscale" :alt="__('contact.office.image_alt')" variant="office" width="1400" height="1800" />
+            {{-- TODO: AI-generated photo (Gemini). Replace with a real photo of the office entrance in Avan. --}}
+            <x-cinema-media :src="asset('images/site/contact-office.webp')" :alt="__('contact.office.image_alt')" variant="office" width="765" height="1024" />
 
             <h1 class="contact-title" data-reveal>
                 {{ __('contact.title') }}

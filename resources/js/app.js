@@ -8,6 +8,7 @@ import gallery from './components/gallery';
 import copyLink from './components/copyLink';
 import languageMenu from './components/languageMenu';
 import contactForm from './components/contactForm';
+import portfolioFilter from './components/portfolioFilter';
 
 // The mobile menu goes first so nothing further down can stop it from working.
 mobileMenu();
@@ -17,3 +18,4 @@ gallery();
 copyLink();
 languageMenu();
 contactForm();
+portfolioFilter();

@@ -4,7 +4,7 @@ use App\Http\Middleware\SetLocale;
 use Illuminate\Support\Facades\Route;
 
 $locales = array_keys(config('app.locales'));
-$pages = ['about', 'services', 'expansion', 'contact', 'blog'];
+$pages = ['about', 'services', 'portfolio', 'expansion', 'contact', 'blog'];
 
 Route::redirect('/', '/'.$locales[0]);
 
@@ -28,4 +28,11 @@ Route::prefix('{locale}')
 
             return view('blog.show', ['slug' => $slug]);
         })->name('blog.show');
+
+        Route::view('/portfolio', 'portfolio.index')->name('portfolio.index');
+        Route::get('/portfolio/{slug}', function (string $locale, string $slug) {
+            abort_unless(array_key_exists($slug, config('portfolio.projects')), 404);
+
+            return view('portfolio.show', ['slug' => $slug]);
+        })->name('portfolio.show');
     });

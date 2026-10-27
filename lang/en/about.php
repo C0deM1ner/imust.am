@@ -64,14 +64,6 @@ return [
         'next' => 'Next projects',
         'title' => 'Successful projects',
         'lead' => 'Websites, social media, video and advertising for our clients.',
-        // TODO: replace with real case studies.
-        'items' => [
-            ['category' => 'Website', 'title' => 'Project name'],
-            ['category' => 'Social media', 'title' => 'Project name'],
-            ['category' => 'Video', 'title' => 'Project name'],
-            ['category' => 'Google Ads', 'title' => 'Project name'],
-            ['category' => 'Branding', 'title' => 'Project name'],
-        ],
     ],
 
     'cta' => [

@@ -4,7 +4,7 @@
     $post = __("blog.posts.{$slug}");
     $others = array_values(array_filter(array_keys(config('blog.posts')), fn ($key) => $key !== $slug));
     $url = route('blog.show', ['slug' => $slug]);
-    $coverUrl = 'https://picsum.photos/seed/'.config("blog.posts.{$slug}.cover").'/2400/1500?grayscale';
+    $coverUrl = asset(config("blog.posts.{$slug}.image"));
     $shareLinks = [
         'facebook' => 'https://www.facebook.com/sharer/sharer.php?u='.urlencode($url),
         'linkedin' => 'https://www.linkedin.com/sharing/share-offsite/?url='.urlencode($url),
@@ -21,7 +21,7 @@
         <x-cinema-media :src="$coverUrl" />
 
         <div class="container blog-post-hero-content">
-            <a href="{{ route('blog.index') }}" class="blog-back" data-reveal>
+            <a href="{{ route('blog.index') }}" class="back-link" data-reveal>
                 <i class="ph ph-arrow-left" aria-hidden="true"></i>
                 {{ __('blog.back') }}
             </a>

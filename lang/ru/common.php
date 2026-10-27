@@ -8,6 +8,7 @@ return [
         'home' => 'Главная',
         'about' => 'О нас',
         'services' => 'Услуги',
+        'portfolio' => 'Портфолио',
         'expansion' => 'Студия',
         'blog' => 'Блог',
     ],

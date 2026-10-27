@@ -1,15 +1,16 @@
 @extends('layouts.app')
 
 @php
-    // TODO: replace placeholder photography (picsum.photos) with real I MUST images.
-    $roleImages = ['imust-marketing-team', 'imust-web-developer', 'imust-reel-shoot'];
+    // TODO: AI-generated photography (Gemini). Replace with real I MUST photos when available.
+    $roleImages = ['images/site/home-role-marketing.webp', 'images/site/home-role-developer.webp', 'images/site/home-role-reels.webp'];
+    $heroImage = asset('images/site/home-hero.webp');
 @endphp
 
 @section('content')
     {{-- ─── Hero: full-bleed photo, message overlaid, wordmark across the bottom edge ─── --}}
     <section class="page-hero">
         {{-- TODO: replace with a real team photo or a muted looping showreel <video>. --}}
-        <x-cinema-media src="https://picsum.photos/seed/imust-hero-team/2400/1500?grayscale" :alt="__('home.hero.image_alt')" variant="home" />
+        <x-cinema-media :src="$heroImage" :alt="__('home.hero.image_alt')" variant="home" />
 
         <div class="container home-hero-content">
             <div class="home-hero-grid">
@@ -51,7 +52,7 @@
         <div class="home-team-grid">
             @foreach (__('home.team.roles') as $role)
                 <a href="{{ route('about') }}" class="photo-card home-team-card" data-reveal style="--d:{{ $loop->index }}">
-                    <img src="https://picsum.photos/seed/{{ $roleImages[$loop->index] }}/1000/1600?grayscale" width="1000" height="1600" loading="lazy" alt="{{ $role['alt'] }}" class="photo-card-img">
+                    <img src="{{ asset($roleImages[$loop->index]) }}" width="687" height="1024" loading="lazy" alt="{{ $role['alt'] }}" class="photo-card-img">
                     <div class="photo-card-shade" aria-hidden="true"></div>
 
                     <span class="glass-pill arrow-badge" aria-hidden="true">
@@ -79,7 +80,7 @@
 
     {{-- ─── Studio: full-bleed image, title word across the bottom edge (echoes the hero) ─── --}}
     <section class="home-studio">
-        <img src="https://picsum.photos/seed/imust-studio-lights/2400/1500?grayscale" width="2400" height="1500" loading="lazy" alt="{{ __('home.studio.image_alt') }}" class="home-studio-img">
+        <img src="{{ asset('images/site/home-studio.webp') }}" width="1024" height="572" loading="lazy" alt="{{ __('home.studio.image_alt') }}" class="home-studio-img">
         <div class="home-studio-shade" aria-hidden="true"></div>
 
         <div class="container home-studio-content">

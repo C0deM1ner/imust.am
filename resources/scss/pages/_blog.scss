@@ -58,49 +58,32 @@
         }
     }
 
-    // ─── Blog index: featured post panel at the bottom of the hero ───────────────
+    // ─── Blog index: latest post as a wide card, the rest in the grid ─────────────
 
-    .blog-featured {
-        @apply grid gap-20 rounded-[24px] p-24 md:grid-cols-12 md:items-end md:p-36;
+    .blog-list {
+        @apply pb-96 md:pb-144;
 
-        &-wrap {
-            @apply pb-24 pt-48 md:pb-40;
-        }
-
-        &-text {
-            @apply md:col-span-8;
-        }
-
-        .post-meta {
-            @apply text-paper/70;
-        }
-
-        &-title {
-            @apply mt-12 text-balance text-[26px] font-bold leading-tight tracking-tight transition-colors md:text-[36px];
-        }
-
-        &-excerpt {
-            @apply mt-10 max-w-[60ch] text-p text-paper/75;
-        }
-
-        &-action {
-            @apply md:col-span-4 md:flex md:justify-end;
-        }
-
-        &:hover &-title {
-            @apply text-primaryLight;
-        }
-
-        &:hover .btn-light {
-            @apply bg-white;
+        // From lg up the empty column tracks collapse, so two posts fill the row instead of
+        // leaving a gap where the third would be.
+        &-grid {
+            @apply mt-20 md:mt-24 lg:grid-cols-[repeat(auto-fit,minmax(300px,1fr))];
         }
     }
 
-    .blog-more {
-        @apply py-96 md:py-144;
+    // Image left, text right from lg up; the regular card layout below that.
+    .post-card.post-card-featured {
+        @apply lg:grid lg:grid-cols-12;
 
-        &-title {
-            @apply pb-40 md:pb-56;
+        .post-card-media {
+            @apply lg:col-span-7 lg:aspect-auto lg:min-h-[440px];
+        }
+
+        .post-card-body {
+            @apply lg:col-span-5 lg:justify-end lg:p-40;
+        }
+
+        .post-card-title {
+            @apply text-balance text-[26px] md:text-[32px] xl:text-[36px];
         }
     }
 
@@ -136,10 +119,6 @@
         }
     }
 
-    .blog-back {
-        @apply inline-flex items-center gap-8 text-ps font-semibold text-paper/80 transition-colors hover:text-paper;
-    }
-
     // Sticky share rail on desktop, a row under the article on mobile.
     .share-rail {
         @apply order-last lg:order-first lg:col-span-2;
@@ -166,44 +145,6 @@
 
         i {
             @apply text-[18px];
-        }
-    }
-
-    // Article typography (no typography plugin: blocks come from lang/{locale}/blog.php).
-    .article-body {
-        @apply max-w-[68ch] text-pm-mobile text-paper/85 md:text-pm lg:col-span-8;
-
-        > * + * {
-            @apply mt-20;
-        }
-
-        .lead-in {
-            @apply text-[20px] font-medium leading-relaxed text-paper md:text-[24px];
-        }
-
-        h2 {
-            @apply mt-56 text-[26px] font-bold leading-tight tracking-tight text-paper md:text-[32px];
-        }
-
-        p {
-            @apply leading-relaxed;
-        }
-
-        ul {
-            @apply flex flex-col gap-12;
-        }
-
-        li {
-            @apply relative pl-28 leading-relaxed;
-
-            &::before {
-                content: '';
-                @apply absolute left-4 top-[0.7em] h-8 w-8 rounded-full bg-primary;
-            }
-        }
-
-        blockquote {
-            @apply my-40 border-l-2 border-primary pl-24 text-[22px] font-medium leading-snug text-paper md:text-[28px];
         }
     }
 

@@ -15,8 +15,8 @@
 @section('content')
     {{-- ─── Hero: full-bleed photo, title top-left, package names across the bottom edge (each jumps to its card) ─── --}}
     <section class="page-hero page-hero-split">
-        {{-- TODO: replace with a real photo of the team at work. --}}
-        <x-cinema-media src="https://picsum.photos/seed/imust-services-hero/2400/1500?grayscale" variant="page" />
+        {{-- TODO: AI-generated photo (Gemini). Replace with a real photo of the team at work. --}}
+        <x-cinema-media :src="asset('images/site/services-hero.webp')" variant="page" />
 
         <div class="container page-hero-top">
             <div class="max-w-5xl">

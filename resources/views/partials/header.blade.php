@@ -3,6 +3,7 @@
         'home' => __('common.nav.home'),
         'about' => __('common.nav.about'),
         'services' => __('common.nav.services'),
+        'portfolio.index' => __('common.nav.portfolio'),
         'expansion' => __('common.nav.expansion'),
         'blog.index' => __('common.nav.blog'),
     ];

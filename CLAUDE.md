@@ -101,9 +101,9 @@ resources/scss/
 ├── abstracts/_mixins.scss // glass() and other shared mixins (no output)
 ├── base/                  // _globals, _typo, _keyframes, _no_scroll, _reveal
 ├── components/            // _buttons, _glass, _header, _mobile-menu, _language-switcher, _footer,
-│                          // _cta-band, _forms, _cinema-media, _page-hero, _section, _photo-card,
+│                          // _cta-band, _forms, _cinema-media, _page-hero, _page-intro, _section, _photo-card,
 │                          // _package-card, _wordmarks, _gallery
-└── pages/                 // _home, _about, _services, _expansion, _contact, _blog
+└── pages/                 // _home, _about, _services, _portfolio, _expansion, _contact, _blog
 ```
 
 - One block per partial. A shared partial (`partials/header.blade.php`, `partials/package-cards.blade.php`) gets a matching `components/_*.scss`. Page-only sections go in `pages/_<page>.scss`.
@@ -119,7 +119,7 @@ resources/scss/
 
 ## Typography and shared pieces
 
-- Reuse the shared classes before writing new ones: `.eyebrow`, `.hero-title`, `.hero-lead` (`.hero-lead-narrow`), `.section-heading` (`.section-heading-xl`), `.section-head`, `.page-hero` (`.page-hero-split`, `.page-hero-top`), `.photo-card` (`-img`, `-shade`) with `.arrow-badge`, `.btn` (`.btn-primary`, `.btn-glass`, `.btn-light`, `.btn-dark`, `.btn-lg`), `.icon-link`, `.glass-pill`, `.form-group`, `.field`, `.choice`. Page variations override them from the page partial (`.home-team-card .photo-card-shade { ... }`).
+- Reuse the shared classes before writing new ones: `.eyebrow`, `.hero-title`, `.hero-lead` (`.hero-lead-narrow`), `.section-heading` (`.section-heading-xl`), `.section-head`, `.page-hero` (`.page-hero-split`, `.page-hero-top`), `@include('partials.page-intro')` for a title without a hero photo, `.photo-card` (`-img`, `-shade`) with `.arrow-badge`, `.btn` (`.btn-primary`, `.btn-glass`, `.btn-light`, `.btn-dark`, `.btn-lg`), `.icon-link`, `.glass-pill`, `.form-group`, `.field`, `.choice`. Page variations override them from the page partial (`.home-team-card .photo-card-shade { ... }`).
 - Repeated UI is a Blade partial or anonymous component (`resources/views/components/*.blade.php` with `@props`) plus one SCSS block, for example `<x-cinema-media :src="..." variant="page" />` for every full-bleed hero photo. Don't copy-paste markup between pages.
 - Copy lives in `lang/{hy,ru,en}/*.php` and site data in `config/*.php`, never hardcoded in Blade. Every text change goes into all three languages. Never use em-dashes in copy.
 
@@ -133,7 +133,7 @@ resources/scss/
 
 ## JavaScript
 
-- `resources/js/app.js` only imports and calls init functions. Each feature is a module in `resources/js/components/<name>.js` (`mobileMenu.js`, `header.js`, `reveal.js`, `gallery.js`, `copyLink.js`, `languageMenu.js`, `contactForm.js`, plus the `disableScroll.js` helper) or `resources/js/pages/<page>.js`, exporting a default function that returns early when its `data-*` hook is missing from the page. Keep `mobileMenu()` first in `app.js`.
+- `resources/js/app.js` only imports and calls init functions. Each feature is a module in `resources/js/components/<name>.js` (`mobileMenu.js`, `header.js`, `reveal.js`, `gallery.js`, `copyLink.js`, `languageMenu.js`, `contactForm.js`, `portfolioFilter.js`, plus the `disableScroll.js` helper) or `resources/js/pages/<page>.js`, exporting a default function that returns early when its `data-*` hook is missing from the page. Keep `mobileMenu()` first in `app.js`.
 - Plain JS, no jQuery. Respect `prefers-reduced-motion`.
 
 ## Design rules that stay

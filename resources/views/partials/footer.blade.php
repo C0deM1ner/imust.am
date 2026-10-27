@@ -1,6 +1,6 @@
 @php
     $contact = config('app.contact');
-    $pages = ['home' => 'home', 'about' => 'about', 'services' => 'services', 'expansion' => 'expansion', 'blog.index' => 'blog'];
+    $pages = ['home' => 'home', 'about' => 'about', 'services' => 'services', 'portfolio.index' => 'portfolio', 'expansion' => 'expansion', 'blog.index' => 'blog'];
 @endphp
 
 {{-- ─── Footer: rounded panel, giant wordmark bleeding off the bottom edge ─── --}}

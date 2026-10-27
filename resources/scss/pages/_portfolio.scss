@@ -1,0 +1,154 @@
+@layer components {
+    // Service tag on a photo (cards and the project hero); add .glass-pill.
+    .tag-pill {
+        @apply inline-flex h-32 items-center rounded-pill px-12 text-[12px] font-semibold text-paper/90;
+    }
+
+    // ─── Work: tag filter and project grid ───────────────────────────────────────
+
+    .portfolio-work {
+        @apply pb-96 md:pb-144;
+    }
+
+    .portfolio-filter {
+        @apply flex flex-wrap gap-8 pb-40 md:pb-56;
+    }
+
+    // Same shape as the header nav links; the chosen one turns light.
+    .filter-pill {
+        @apply inline-flex h-44 items-center gap-8 whitespace-nowrap rounded-btn border border-line px-16 text-ps font-semibold text-paper/80 transition-colors hover:border-muted hover:text-paper;
+
+        &-count {
+            @apply text-[12px] font-medium text-muted transition-colors;
+        }
+
+        &.is-active {
+            @apply border-paper bg-paper text-ink;
+
+            .filter-pill-count {
+                @apply text-ink/55;
+            }
+        }
+    }
+
+    // Fades out for a moment while the filter swaps the cards (portfolioFilter.js).
+    .portfolio-grid {
+        @apply grid gap-20 transition-opacity duration-200 sm:grid-cols-2 md:gap-24 lg:grid-cols-3;
+
+        &.is-switching {
+            @apply opacity-0;
+        }
+    }
+
+    .portfolio-card {
+        @apply aspect-[4/5] rounded-[24px] border border-white/10 p-24 md:p-28;
+
+        // Leaves room for the arrow badge on the right.
+        &-tags {
+            @apply absolute left-20 right-[80px] top-20 flex flex-wrap gap-6;
+        }
+
+        &-meta {
+            @apply text-ps font-semibold text-primary;
+        }
+
+        &-title {
+            @apply mt-6 text-balance text-[24px] font-bold leading-tight md:text-[26px] xl:text-[28px];
+        }
+
+        &-summary {
+            @apply mt-10 max-w-[44ch] text-ps text-paper/75;
+        }
+    }
+
+    // ─── Project page: hero ──────────────────────────────────────────────────────
+
+    .page-hero.project-hero {
+        @apply min-h-[80dvh] md:min-h-[88dvh];
+    }
+
+    .project-hero {
+        &-content {
+            @apply pb-48 pt-144 md:pb-72;
+        }
+
+        &-tags {
+            @apply mt-28 flex flex-wrap gap-6;
+        }
+    }
+
+    .project-title {
+        @apply mt-16 max-w-5xl text-balance text-[36px] font-bold leading-[1.05] tracking-tight md:text-[56px] xl:text-[68px];
+    }
+
+    .project-client {
+        @apply mt-20 text-p font-semibold text-primary md:text-pm;
+    }
+
+    // ─── Project page: story and facts ──────────────────────────────────────────
+
+    .project-body {
+        @apply py-72 md:py-96;
+    }
+
+    .project-grid {
+        @apply grid gap-48 lg:grid-cols-12 lg:gap-32;
+    }
+
+    // Above the story on mobile, a sticky column on the left from lg up.
+    .project-facts {
+        @apply lg:col-span-4;
+
+        &-list {
+            @apply grid gap-24 rounded-[24px] border border-line bg-surface p-24 sm:grid-cols-3 md:p-28 lg:sticky lg:top-[120px] lg:grid-cols-1;
+        }
+    }
+
+    .project-fact {
+        dt {
+            @apply text-ps font-semibold text-muted;
+        }
+
+        dd {
+            @apply mt-6 text-p font-semibold text-paper;
+
+            &.project-fact-tags {
+                @apply mt-10 flex flex-wrap gap-6;
+            }
+        }
+
+        .filter-pill {
+            @apply h-36 px-14;
+        }
+    }
+
+    // ─── Project page: gallery and more projects ────────────────────────────────
+
+    .project-gallery {
+        @apply pb-96 md:pb-120;
+
+        &-grid {
+            @apply grid gap-20 md:grid-cols-2 md:gap-24;
+        }
+
+        &-item {
+            @apply overflow-hidden rounded-[24px] border border-white/10;
+
+            &:first-child {
+                @apply md:col-span-2;
+            }
+
+            img {
+                @apply aspect-[16/10] h-full w-full object-cover;
+            }
+        }
+    }
+
+    .project-related {
+        @apply border-t border-line py-96 md:py-120;
+
+        &-title {
+            @apply text-[30px] font-bold leading-tight tracking-tight md:text-[44px];
+        }
+    }
+}

@@ -17,15 +17,18 @@
 @use 'components/forms';
 @use 'components/cinema-media';
 @use 'components/page-hero';
+@use 'components/page-intro';
 @use 'components/section';
 @use 'components/photo-card';
 @use 'components/package-card';
 @use 'components/wordmarks';
 @use 'components/gallery';
+@use 'components/article';
 
 @use 'pages/home';
 @use 'pages/about';
 @use 'pages/services';
+@use 'pages/portfolio';
 @use 'pages/expansion';
 @use 'pages/contact';
 @use 'pages/blog';
