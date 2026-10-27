@@ -28,16 +28,16 @@ use Whitecube\NovaPage\Pages\Manager;
 class NovaServiceProvider extends NovaApplicationServiceProvider
 {
     /**
-     * Site pages editable in Nova: name => [menu label, template]. The site reads them with page('name').
+     * Site pages editable in Nova: name => [menu label, template, Heroicon]. The site reads them with page('name').
      */
     public const PAGES = [
-        'home-page' => ['HOME PAGE', HomePage::class],
-        'about-page' => ['ABOUT US', AboutPage::class],
-        'services-page' => ['SERVICES', ServicesPage::class],
-        'portfolio-page' => ['PORTFOLIO', ListingPage::class],
-        'studio-page' => ['STUDIO', StudioPage::class],
-        'blog-page' => ['BLOG', ListingPage::class],
-        'contact-page' => ['CONTACT', ContactPage::class],
+        'home-page' => ['HOME PAGE', HomePage::class, 'home'],
+        'about-page' => ['ABOUT US', AboutPage::class, 'user-group'],
+        'services-page' => ['SERVICES', ServicesPage::class, 'rectangle-stack'],
+        'portfolio-page' => ['PORTFOLIO', ListingPage::class, 'photo'],
+        'studio-page' => ['STUDIO', StudioPage::class, 'video-camera'],
+        'blog-page' => ['BLOG', ListingPage::class, 'book-open'],
+        'contact-page' => ['CONTACT', ContactPage::class, 'envelope'],
     ];
 
     /**
@@ -67,13 +67,17 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
         Nova::mainMenu(function () {
             $pages = [];
-            foreach (self::PAGES as $name => [$label]) {
+            foreach (self::PAGES as $name => [$label, , $icon]) {
                 $pages[] = MenuSection::make($label)
                     ->path("/resources/nova-page/route.{$name}/edit")
-                    ->icon('document-text');
+                    ->icon($icon);
             }
 
             return [
+                MenuSection::make('INBOX')
+                    ->path('/resources/contact-requests')
+                    ->icon('inbox'),
+
                 ...$pages,
 
                 MenuSection::make('BLOG POSTS')
@@ -90,7 +94,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
                 MenuSection::make('FILE MANAGER')
                     ->path('/nova-file-manager')
-                    ->icon('folder'),
+                    ->icon('folder-open'),
 
                 MenuSection::make('SETTINGS')
                     ->path('nova-settings')
@@ -98,7 +102,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
                 MenuSection::make('TRANSLATIONS')
                     ->path('translation-manager')
-                    ->icon('translate'),
+                    ->icon('language'),
 
                 MenuSection::make('USERS')
                     ->path('/resources/users')

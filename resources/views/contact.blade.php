@@ -58,30 +58,37 @@
 
         {{-- Form panel. UI only: validation runs in components/contactForm.js; there is no backend endpoint yet. --}}
         <div class="contact-form-panel">
-            <form data-contact-form novalidate class="contact-form" data-reveal style="--d:1">
+            <form id="contact-form" method="post" action="{{ route('contact.store') }}" data-contact-form novalidate class="contact-form" data-reveal style="--d:1">
+                @csrf
                 <h2 class="contact-form-title">{{ __('contact.form.title') }}</h2>
+
+                {{-- Honeypot: hidden from people; a filled-in value marks the request as spam (StoreContactRequest). --}}
+                <div class="hidden" aria-hidden="true">
+                    <label for="website">Website</label>
+                    <input id="website" name="website" type="text" tabindex="-1" autocomplete="off">
+                </div>
 
                 <div class="contact-form-grid">
                     <div class="form-group">
                         <label for="name" class="field-label">{{ __('contact.form.name') }}</label>
-                        <input id="name" name="name" type="text" autocomplete="name" required data-validate class="field" aria-describedby="name-error">
-                        <p id="name-error" class="field-error hidden">{{ __('contact.form.errors.name') }}</p>
+                        <input id="name" name="name" type="text" autocomplete="name" value="{{ old('name') }}" required data-validate class="field" aria-describedby="name-error" @error('name') aria-invalid="true" @enderror>
+                        <p id="name-error" @class(['field-error', 'hidden' => ! $errors->has('name')])>{{ $errors->first('name') ?: __('contact.form.errors.name') }}</p>
                     </div>
 
                     <div class="form-group">
                         <label for="company" class="field-label">{{ __('contact.form.company') }} <span class="field-optional">({{ __('contact.form.optional') }})</span></label>
-                        <input id="company" name="company" type="text" autocomplete="organization" class="field">
+                        <input id="company" name="company" type="text" autocomplete="organization" value="{{ old('company') }}" class="field">
                     </div>
 
                     <div class="form-group">
                         <label for="email" class="field-label">{{ __('contact.form.email') }}</label>
-                        <input id="email" name="email" type="email" autocomplete="email" required data-validate class="field" aria-describedby="email-error">
-                        <p id="email-error" class="field-error hidden">{{ __('contact.form.errors.email') }}</p>
+                        <input id="email" name="email" type="email" autocomplete="email" value="{{ old('email') }}" required data-validate class="field" aria-describedby="email-error" @error('email') aria-invalid="true" @enderror>
+                        <p id="email-error" @class(['field-error', 'hidden' => ! $errors->has('email')])>{{ $errors->first('email') ?: __('contact.form.errors.email') }}</p>
                     </div>
 
                     <div class="form-group">
                         <label for="phone" class="field-label">{{ __('contact.form.phone') }} <span class="field-optional">({{ __('contact.form.optional') }})</span></label>
-                        <input id="phone" name="phone" type="tel" autocomplete="tel" class="field">
+                        <input id="phone" name="phone" type="tel" autocomplete="tel" value="{{ old('phone') }}" class="field">
                     </div>
 
                     <fieldset class="contact-form-wide">
@@ -89,7 +96,7 @@
                         <div class="choice-group">
                             @foreach ($packages + ['unsure' => __('contact.form.package_unsure')] as $value => $label)
                                 <label class="choice">
-                                    <input type="radio" name="package" value="{{ $value }}" class="choice-input" @checked($value === 'unsure')>
+                                    <input type="radio" name="package" value="{{ $value }}" class="choice-input" @checked($value === old('package', 'unsure'))>
                                     <span class="choice-pill">{{ $label }}</span>
                                 </label>
                             @endforeach
@@ -98,19 +105,20 @@
 
                     <div class="form-group contact-form-wide">
                         <label for="message" class="field-label">{{ __('contact.form.message') }}</label>
-                        <textarea id="message" name="message" rows="5" required data-validate class="field resize-y" aria-describedby="message-hint message-error"></textarea>
+                        <textarea id="message" name="message" rows="5" required data-validate class="field resize-y" aria-describedby="message-hint message-error" @error('message') aria-invalid="true" @enderror>{{ old('message') }}</textarea>
                         <p id="message-hint" class="field-hint">{{ __('contact.form.message_hint') }}</p>
-                        <p id="message-error" class="field-error hidden">{{ __('contact.form.errors.message') }}</p>
+                        <p id="message-error" @class(['field-error', 'hidden' => ! $errors->has('message')])>{{ $errors->first('message') ?: __('contact.form.errors.message') }}</p>
                     </div>
                 </div>
 
-                <button type="submit" class="contact-form-submit">
+                <button type="submit" data-form-submit class="contact-form-submit">
                     {{ __('contact.form.submit') }}
                     <i class="ph ph-paper-plane-tilt" aria-hidden="true"></i>
                 </button>
 
-                <p data-form-status tabindex="-1" role="status" class="contact-form-status hidden">
-                    <i class="ph ph-info" aria-hidden="true"></i>{{ __('contact.form.not_connected') }}
+                <p data-form-status data-failed="{{ __('contact.form.failed', ['email' => $email]) }}" tabindex="-1" role="status"
+                   @class(['contact-form-status', 'hidden' => ! session('contact_sent')])>
+                    <i class="ph ph-check-circle" aria-hidden="true"></i><span data-form-status-text>{{ __('contact.form.sent') }}</span>
                 </p>
             </form>
         </div>

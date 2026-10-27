@@ -49,5 +49,5 @@ return [
    |
    */
 
-    'ignore_groups' => ['auth','pagination','passwords','routes','nova','nova/validation', 'nova::validation'],
+    'ignore_groups' => ['auth', 'pagination', 'passwords', 'routes', 'validation', 'nova', 'nova/validation', 'nova::validation'],
 ];

@@ -26,7 +26,7 @@ return [
             'email' => 'Enter a valid email address.',
             'message' => 'Tell us a little about your project.',
         ],
-        // TODO: remove once the form is connected to a mail service.
-        'not_connected' => 'Online sending is not set up yet. Please email us at hello@imust.am.',
+        'sent' => 'Thank you, your message has been sent. We will get back to you by email.',
+        'failed' => 'The message could not be sent. Please try again or email us at :email.',
     ],
 ];

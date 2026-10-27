@@ -105,6 +105,10 @@
             i {
                 @apply mr-6 text-primary;
             }
+
+            &.is-error i {
+                @apply text-[#F2877E];
+            }
         }
     }
 }
