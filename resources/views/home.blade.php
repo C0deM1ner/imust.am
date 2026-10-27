@@ -1,21 +1,17 @@
 @extends('layouts.app')
 
-@php
-    // TODO: AI-generated photography (Gemini). Replace with real I MUST photos when available.
-    $roleImages = ['images/site/home-role-marketing.webp', 'images/site/home-role-developer.webp', 'images/site/home-role-reels.webp'];
-    $heroImage = asset('images/site/home-hero.webp');
-@endphp
+@section('full_title', $content->meta_title ?: __('common.meta_title'))
+@section('description', $content->meta_description ?: __('common.meta_description'))
 
 @section('content')
     {{-- ─── Hero: full-bleed photo, message overlaid, wordmark across the bottom edge ─── --}}
     <section class="page-hero">
-        {{-- TODO: replace with a real team photo or a muted looping showreel <video>. --}}
-        <x-cinema-media :src="$heroImage" :alt="__('home.hero.image_alt')" variant="home" />
+        <x-cinema-media :src="img($content->hero_image)" :alt="$content->hero_image_alt" variant="home" />
 
         <div class="container home-hero-content">
             <div class="home-hero-grid">
                 <p class="home-hero-subtitle" data-reveal style="--d:4">
-                    {{ __('home.hero.subtitle') }}
+                    {{ $content->hero_subtitle }}
                 </p>
                 <div class="home-hero-actions" data-reveal style="--d:5">
                     <a href="{{ route('services') }}" class="btn btn-primary">
@@ -41,18 +37,19 @@
     <section class="home-team">
         <div class="container home-team-head">
             <h2 class="section-heading section-heading-xl home-team-title" data-reveal>
-                {{ __('home.team.title') }}
+                {{ $content->team_title }}
             </h2>
             <div class="home-team-aside" data-reveal style="--d:1">
-                <p class="home-team-lead">{{ __('home.team.lead') }}</p>
+                <p class="home-team-lead">{{ $content->team_lead }}</p>
                 <a href="{{ route('about') }}" class="link-arrow mt-20">{{ __('home.team.link') }} <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
             </div>
         </div>
 
         <div class="home-team-grid">
-            @foreach (__('home.team.roles') as $role)
+            @foreach ($content->team_roles ?? [] as $role)
+                @php($role = $role['attributes'])
                 <a href="{{ route('about') }}" class="photo-card home-team-card" data-reveal style="--d:{{ $loop->index }}">
-                    <img src="{{ asset($roleImages[$loop->index]) }}" width="687" height="1024" loading="lazy" alt="{{ $role['alt'] }}" class="photo-card-img">
+                    <img src="{{ img($role['image'] ?? null) }}" width="687" height="1024" loading="lazy" alt="{{ $role['image_alt'] ?? '' }}" class="photo-card-img">
                     <div class="photo-card-shade" aria-hidden="true"></div>
 
                     <span class="glass-pill arrow-badge" aria-hidden="true">
@@ -70,23 +67,23 @@
     <section class="home-packages">
         <div class="container">
             <div class="section-head home-packages-head" data-reveal>
-                <h2 class="section-heading section-heading-xl">{{ __('home.packages.title') }}</h2>
+                <h2 class="section-heading section-heading-xl">{{ $content->packages_title }}</h2>
                 <a href="{{ route('services') }}" class="btn btn-glass w-fit">{{ __('common.cta_services') }} <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
             </div>
 
-            @include('partials.package-cards')
+            @include('partials.package-cards', ['services' => $services])
         </div>
     </section>
 
     {{-- ─── Studio: full-bleed image, title word across the bottom edge (echoes the hero) ─── --}}
     <section class="home-studio">
-        <img src="{{ asset('images/site/home-studio.webp') }}" width="1024" height="572" loading="lazy" alt="{{ __('home.studio.image_alt') }}" class="home-studio-img">
+        <img src="{{ img($content->studio_image) }}" width="1024" height="572" loading="lazy" alt="{{ $content->studio_image_alt }}" class="home-studio-img">
         <div class="home-studio-shade" aria-hidden="true"></div>
 
         <div class="container home-studio-content">
             <div class="home-studio-text" data-reveal>
-                <h2 class="section-heading">{{ __('home.studio.title') }}</h2>
-                <p class="home-studio-lead">{{ __('home.studio.lead') }}</p>
+                <h2 class="section-heading">{{ $content->studio_title }}</h2>
+                <p class="home-studio-lead">{{ $content->studio_lead }}</p>
                 <a href="{{ route('expansion') }}" class="btn btn-glass mt-28">{{ __('home.studio.link') }} <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
             </div>
         </div>
@@ -98,10 +95,10 @@
     <section class="home-cta">
         <div class="container home-cta-inner">
             <h2 class="home-cta-title" data-reveal>
-                {{ __('home.cta.title') }}
+                {{ $content->cta_title }}
             </h2>
             <div class="home-cta-row" data-reveal style="--d:1">
-                <p class="home-cta-lead">{{ __('home.cta.lead') }}</p>
+                <p class="home-cta-lead">{{ $content->cta_lead }}</p>
                 <a href="{{ route('contact') }}" class="btn btn-primary btn-lg w-fit">
                     {{ __('common.cta_contact') }}
                     <i class="ph ph-arrow-right" aria-hidden="true"></i>

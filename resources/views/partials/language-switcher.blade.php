@@ -1,7 +1,7 @@
 @php
-    $locales = config('app.locales');
+    $locales = config('localizer.locales_labels');
     $current = app()->getLocale();
-    $urlFor = fn ($code) => route(Route::currentRouteName(), array_filter(['locale' => $code, 'slug' => request()->route('slug')]));
+    $urlFor = fn ($code) => Route::localizedSwitcherUrl($code);
 @endphp
 
 @if ($inline ?? false)

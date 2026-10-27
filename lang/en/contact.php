@@ -1,20 +1,12 @@
 <?php
 
 return [
-    'meta_title' => 'Contact I MUST',
-    'meta_description' => 'Visit the I MUST office in Avan, Yerevan, or send us a message.',
-
-    'title' => "Let's talk about your business.",
-    'lead' => 'Visit our office in Avan or send us a message.',
-
     'office' => [
         'title' => 'Office',
         'city' => 'Avan, Yerevan',
-        'lines' => ['First floor', 'Separate entrance', 'Yard'],
         'email' => 'Email',
         'phone' => 'Phone',
         'map' => 'Open in Google Maps',
-        'image_alt' => 'The I MUST office entrance',
     ],
 
     'form' => [

@@ -6,12 +6,25 @@
     <meta name="description" content="@yield('description', __('common.meta_description'))">
     <meta name="theme-color" content="#0D0F13">
 
-    <title>@hasSection('title')@yield('title') | I MUST @else{{ __('common.meta_title') }}@endif</title>
+    <title>@hasSection('full_title')@yield('full_title')@elseif (View::hasSection('title'))@yield('title') | I MUST @else{{ __('common.meta_title') }}@endif</title>
 
-    @foreach (array_keys(config('app.locales')) as $code)
-        <link rel="alternate" hreflang="{{ $code }}" href="{{ route(Route::currentRouteName(), array_filter(['locale' => $code, 'slug' => request()->route('slug')])) }}">
+    {{-- SEO tab of the page in Nova (pages pass their page() content as $content). --}}
+    @isset($content)
+        @if (($content->is_indexable ?? true) === false)
+            <meta name="robots" content="noindex">
+        @endif
+        @if ($metaImage = img($content->meta_image ?? null))
+            <meta property="og:image" content="{{ $metaImage }}">
+        @endif
+        @if (! empty($content->meta_keywords))
+            <meta name="keywords" content="{{ $content->meta_keywords }}">
+        @endif
+    @endisset
+
+    @foreach (config('localizer.supported_locales') as $code)
+        <link rel="alternate" hreflang="{{ $code }}" href="{{ Route::localizedUrl($code) }}">
     @endforeach
-    <link rel="alternate" hreflang="x-default" href="{{ route(Route::currentRouteName(), array_filter(['locale' => array_key_first(config('app.locales')), 'slug' => request()->route('slug')])) }}">
+    <link rel="alternate" hreflang="x-default" href="{{ Route::localizedUrl(config('app.fallback_locale')) }}">
 
     {{-- Lets CSS hide [data-reveal] content only when JS will reveal it. --}}
     <script>document.documentElement.classList.add('js')</script>

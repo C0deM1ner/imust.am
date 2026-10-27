@@ -1,34 +1,22 @@
 @extends('layouts.app')
 
-@php
-    $post = __("blog.posts.{$slug}");
-    $others = array_values(array_filter(array_keys(config('blog.posts')), fn ($key) => $key !== $slug));
-    $url = route('blog.show', ['slug' => $slug]);
-    $coverUrl = asset(config("blog.posts.{$slug}.image"));
-    $shareLinks = [
-        'facebook' => 'https://www.facebook.com/sharer/sharer.php?u='.urlencode($url),
-        'linkedin' => 'https://www.linkedin.com/sharing/share-offsite/?url='.urlencode($url),
-        'telegram' => 'https://t.me/share/url?url='.urlencode($url).'&text='.urlencode($post['title']),
-    ];
-@endphp
-
-@section('title', $post['title'])
-@section('description', $post['excerpt'])
+@section('title', $post->meta_title ?: $post->title)
+@section('description', $post->meta_description ?: $post->excerpt)
 
 @section('content')
     {{-- ─── Hero: full-bleed cover, title and meta at the bottom ─── --}}
     <section class="page-hero blog-post-hero">
-        <x-cinema-media :src="$coverUrl" />
+        <x-cinema-media :src="img($post->cover)" />
 
         <div class="container blog-post-hero-content">
             <a href="{{ route('blog.index') }}" class="back-link" data-reveal>
                 <i class="ph ph-arrow-left" aria-hidden="true"></i>
                 {{ __('blog.back') }}
             </a>
-            <p class="blog-post-category" data-reveal style="--d:1">{{ $post['category'] }}</p>
-            <h1 class="blog-post-title" data-reveal style="--d:2">{{ $post['title'] }}</h1>
+            <p class="blog-post-category" data-reveal style="--d:1">{{ $post->category }}</p>
+            <h1 class="blog-post-title" data-reveal style="--d:2">{{ $post->title }}</h1>
             <p class="post-meta blog-post-meta" data-reveal style="--d:3">
-                @include('blog.partials.meta', ['slug' => $slug])
+                @include('blog.partials.meta', ['post' => $post])
             </p>
         </div>
     </section>
@@ -56,32 +44,15 @@
             </aside>
 
             <article class="article-body">
-                <p class="lead-in">{{ $post['excerpt'] }}</p>
-                @foreach ($post['body'] as [$type, $content])
-                    @switch($type)
-                        @case('h2')
-                            <h2>{{ $content }}</h2>
-                            @break
-                        @case('ul')
-                            <ul>
-                                @foreach ($content as $item)
-                                    <li>{{ $item }}</li>
-                                @endforeach
-                            </ul>
-                            @break
-                        @case('quote')
-                            <blockquote>{{ $content }}</blockquote>
-                            @break
-                        @default
-                            <p>{{ $content }}</p>
-                    @endswitch
-                @endforeach
+                <p class="lead-in">{{ $post->excerpt }}</p>
+                {{-- Written in Nova's CKEditor by admins. --}}
+                {!! $post->body !!}
             </article>
         </div>
     </section>
 
     {{-- ─── More posts ─── --}}
-    @if ($others)
+    @if ($others->isNotEmpty())
         <section class="blog-related">
             <div class="container">
                 <div class="section-head" data-reveal>
@@ -89,9 +60,9 @@
                     <a href="{{ route('blog.index') }}" class="btn btn-glass w-fit">{{ __('blog.back') }} <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
                 </div>
                 <ul class="post-grid">
-                    @foreach (array_slice($others, 0, 3) as $other)
+                    @foreach ($others as $other)
                         <li data-fade style="--d:{{ $loop->index }}">
-                            @include('blog.partials.card', ['slug' => $other])
+                            @include('blog.partials.card', ['post' => $other])
                         </li>
                     @endforeach
                 </ul>
@@ -99,5 +70,5 @@
         </section>
     @endif
 
-    @include('partials.cta-band', ['title' => __('home.cta.title'), 'lead' => __('home.cta.lead')])
+    @include('partials.cta-band', ['title' => $listing->cta_title, 'lead' => $listing->cta_lead])
 @endsection

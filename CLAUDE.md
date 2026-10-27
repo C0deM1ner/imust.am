@@ -121,7 +121,7 @@ resources/scss/
 
 - Reuse the shared classes before writing new ones: `.eyebrow`, `.hero-title`, `.hero-lead` (`.hero-lead-narrow`), `.section-heading` (`.section-heading-xl`), `.section-head`, `.page-hero` (`.page-hero-split`, `.page-hero-top`), `@include('partials.page-intro')` for a title without a hero photo, `.photo-card` (`-img`, `-shade`) with `.arrow-badge`, `.btn` (`.btn-primary`, `.btn-glass`, `.btn-light`, `.btn-dark`, `.btn-lg`), `.icon-link`, `.glass-pill`, `.form-group`, `.field`, `.choice`. Page variations override them from the page partial (`.home-team-card .photo-card-shade { ... }`).
 - Repeated UI is a Blade partial or anonymous component (`resources/views/components/*.blade.php` with `@props`) plus one SCSS block, for example `<x-cinema-media :src="..." variant="page" />` for every full-bleed hero photo. Don't copy-paste markup between pages.
-- Copy lives in `lang/{hy,ru,en}/*.php` and site data in `config/*.php`, never hardcoded in Blade. Every text change goes into all three languages. Never use em-dashes in copy.
+- Page content (headings, text, lists, images, SEO) lives in the Nova pages (see below) and is read with `page('home-page')`. UI labels (buttons, form labels, aria labels) live in `lang/{hy,ru,en}/*.php`. Blog posts, portfolio projects and their services are Nova resources (below). Never hardcode copy in Blade. Every text change goes into all three languages. Never use em-dashes in copy.
 
 ## Gotchas
 
@@ -141,6 +141,24 @@ resources/scss/
 - Dark theme only: `ink` page background, `paper` text, `primary` accent.
 - Shapes: nav controls are pills; cards 24 to 28px corners; buttons, inputs and boxes inside cards 14px.
 - Decorative wordmarks get `pointer-events: none`.
+
+## Comments
+
+- Don't write comments that repeat what the code already says: no docblocks like "Get the fields displayed by the resource." or "Run the migrations.", no `// Hero` above `<section class="home-hero">`, no `@param`/`@return` that only restate the signature.
+- Write a comment only for what the code can't say: a non-obvious reason, a constraint, a workaround, a gotcha. One line where possible.
+- The `// ─── Section ───` dividers in SCSS and `{{-- ─── Section ─── --}}` markers in Blade stay; they structure long files.
+- When editing a file, remove useless comments in the code you touch. TODOs for real missing content stay.
+
+## Localization and Nova (same setup as Sep)
+
+- **URLs** come from `niels-numbers/laravel-localizer` (`config/localizer.php`). Pages are registered inside `Route::localize()` in `routes/web.php`: Armenian (the default, `app.fallback_locale`) has no prefix (`/about`), the others do (`/ru/about`, `/en/about`), and `/hy/...` redirects. Use `route('about')` as usual (never pass a locale), `Route::localizedSwitcherUrl($code)` for the language switcher, `Route::localizedUrl($code)` for hreflang, and `Route::currentBaseName()` (not `routeIs()`) for active links: the real route names are `with_locale.*` / `without_locale.*`.
+- **Admin** is Laravel Nova at `/nova` (`app/Providers/NovaServiceProvider.php`), for users with `is_admin`. Tools: Settings (`app/Nova/Settings/Settings.php`, read on the site with `setting('key', $fallback)`), Translations (edits the `lang/` strings; overrides are saved in `lang-custom/`), File Manager (image uploads become WebP), and Nova Page (register page templates in `NovaServiceProvider::register()`).
+- **Controllers load the data, views only render it.** Routes point to `PageController` (static pages), `BlogController` and `PortfolioController`; they call `page()`, `setting()` and the models and pass the results to the view (`$content` for the page's Nova content, which the layout also reads for SEO). Views don't query models or call `page()`. Data a shared partial needs on every page comes from a view composer (`App\View\Composers\FooterComposer`, registered in `AppServiceProvider`).
+- **Pages** are Nova Page templates in `app/Nova/Templates`, registered in `NovaServiceProvider::PAGES` (name => menu label, template) and stored in `static_pages`. The controller loads it with `page('about-page')` (cached `PageLoader`, translated to the current locale) and the view reads `$content->hero_title`; Flexible lists are arrays of `['attributes' => [...]]`, images go through `img()`, "one per line" textareas through `lines()`. Add a field to the template, then to `PageSeeder` and the view.
+- **Blog posts, projects and services (tags)** are models (`App\Models\Post`, `Project`, `Tag`) with Nova resources of the same name. Text fields are translatable (`spatie/laravel-translatable`), the URL slug is one per record, generated from the English title by `spatie/laravel-sluggable` and kept on rename; routes bind by it (`/blog/{post:slug}`). `is_active` hides a record on the site (`IsActiveTrait`), projects and tags are ordered by drag and drop in Nova (`order`, `SortByOrderTrait`), posts by `published_at` (`Post::newestFirst()`).
+- Seeders: `PageSeeder`, `PortfolioSeeder`, `BlogSeeder` (all called from `DatabaseSeeder`) hold the launch content and copy photos from `database/seeders/images` to the public disk. They only create missing rows, so they never overwrite edits made in Nova.
+- On a new install: `php artisan migrate`, `php artisan storage:link`, `php artisan db:seed`.
+- Translatable settings and Nova Page fields store JSON per locale; `translator()` in `app/Support/helpers.php` picks the current language.
 
 ## Checking a change
 

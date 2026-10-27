@@ -1,27 +1,12 @@
 @extends('layouts.app')
 
-@php
-    $projects = config('portfolio.projects');
-    $project = $projects[$slug];
-    $text = __("portfolio.projects.{$slug}");
-    $coverUrl = isset($project['image']) ? asset($project['image']) : 'https://picsum.photos/seed/'.$project['cover'].'/2400/1500?grayscale';
-
-    // TODO: replace with real project photos.
-    $gallery = [$project['cover'].'-1', $project['cover'].'-2', $project['cover'].'-3'];
-
-    // Projects that share a service come first.
-    $others = array_diff_key($projects, [$slug => true]);
-    uasort($others, fn ($a, $b) => count(array_intersect($b['tags'], $project['tags'])) <=> count(array_intersect($a['tags'], $project['tags'])));
-    $others = array_slice($others, 0, 3, true);
-@endphp
-
-@section('title', $text['title'])
-@section('description', $text['summary'])
+@section('title', $project->meta_title ?: $project->title)
+@section('description', $project->meta_description ?: $project->summary)
 
 @section('content')
     {{-- ─── Hero: full-bleed cover, services, title and client at the bottom ─── --}}
     <section class="page-hero project-hero">
-        <x-cinema-media :src="$coverUrl" />
+        <x-cinema-media :src="img($project->cover)" />
 
         <div class="container project-hero-content">
             <a href="{{ route('portfolio.index') }}" class="back-link" data-reveal>
@@ -29,12 +14,12 @@
                 {{ __('portfolio.back') }}
             </a>
             <ul class="project-hero-tags" data-reveal style="--d:1">
-                @foreach ($project['tags'] as $tag)
-                    <li class="glass-pill tag-pill">{{ __("portfolio.tags.{$tag}") }}</li>
+                @foreach ($project->tags as $tag)
+                    <li class="glass-pill tag-pill">{{ $tag->name }}</li>
                 @endforeach
             </ul>
-            <h1 class="project-title" data-reveal style="--d:2">{{ $text['title'] }}</h1>
-            <p class="project-client" data-reveal style="--d:3">{{ $text['client'] }} &middot; {{ $project['year'] }}</p>
+            <h1 class="project-title" data-reveal style="--d:2">{{ $project->title }}</h1>
+            <p class="project-client" data-reveal style="--d:3">{{ $project->client }} &middot; {{ $project->year }}</p>
         </div>
     </section>
 
@@ -45,17 +30,17 @@
                 <dl class="project-facts-list">
                     <div class="project-fact">
                         <dt>{{ __('portfolio.client') }}</dt>
-                        <dd>{{ $text['client'] }}</dd>
+                        <dd>{{ $project->client }}</dd>
                     </div>
                     <div class="project-fact">
                         <dt>{{ __('portfolio.year') }}</dt>
-                        <dd>{{ $project['year'] }}</dd>
+                        <dd>{{ $project->year }}</dd>
                     </div>
                     <div class="project-fact">
                         <dt>{{ __('portfolio.services') }}</dt>
                         <dd class="project-fact-tags">
-                            @foreach ($project['tags'] as $tag)
-                                <a href="{{ route('portfolio.index', ['tag' => $tag]) }}" class="filter-pill">{{ __("portfolio.tags.{$tag}") }}</a>
+                            @foreach ($project->tags as $tag)
+                                <a href="{{ route('portfolio.index', ['tag' => $tag->slug]) }}" class="filter-pill">{{ $tag->name }}</a>
                             @endforeach
                         </dd>
                     </div>
@@ -63,34 +48,42 @@
             </aside>
 
             <article class="article-body">
-                <p class="lead-in">{{ $text['summary'] }}</p>
+                <p class="lead-in">{{ $project->summary }}</p>
 
-                <h2>{{ __('portfolio.challenge_title') }}</h2>
-                <p>{{ $text['challenge'] }}</p>
+                @if ($project->challenge)
+                    <h2>{{ __('portfolio.challenge_title') }}</h2>
+                    <p>{{ $project->challenge }}</p>
+                @endif
 
-                <h2>{{ __('portfolio.work_title') }}</h2>
-                <ul>
-                    @foreach ($text['work'] as $item)
-                        <li>{{ $item }}</li>
-                    @endforeach
-                </ul>
+                @if ($work = lines($project->work))
+                    <h2>{{ __('portfolio.work_title') }}</h2>
+                    <ul>
+                        @foreach ($work as $item)
+                            <li>{{ $item }}</li>
+                        @endforeach
+                    </ul>
+                @endif
 
-                <h2>{{ __('portfolio.result_title') }}</h2>
-                <p>{{ $text['result'] }}</p>
+                @if ($project->result)
+                    <h2>{{ __('portfolio.result_title') }}</h2>
+                    <p>{{ $project->result }}</p>
+                @endif
             </article>
         </div>
     </section>
 
-    {{-- ─── Gallery: one wide photo, two below ─── --}}
-    <section class="project-gallery">
-        <ul class="container project-gallery-grid">
-            @foreach ($gallery as $seed)
-                <li class="project-gallery-item" data-fade style="--d:{{ $loop->index }}">
-                    <img src="https://picsum.photos/seed/{{ $seed }}/1600/1000?grayscale" width="1600" height="1000" loading="lazy" alt="">
-                </li>
-            @endforeach
-        </ul>
-    </section>
+    {{-- ─── Gallery: the first photo full width, the rest two per row ─── --}}
+    @if ($project->gallery?->isNotEmpty())
+        <section class="project-gallery">
+            <ul class="container project-gallery-grid">
+                @foreach ($project->gallery as $photo)
+                    <li class="project-gallery-item" data-fade style="--d:{{ min($loop->index, 3) }}">
+                        <img src="{{ img($photo) }}" width="1600" height="1000" loading="lazy" alt="">
+                    </li>
+                @endforeach
+            </ul>
+        </section>
+    @endif
 
     {{-- ─── More projects ─── --}}
     <section class="project-related">
@@ -100,14 +93,14 @@
                 <a href="{{ route('portfolio.index') }}" class="btn btn-glass w-fit">{{ __('portfolio.back') }} <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
             </div>
             <ul class="portfolio-grid">
-                @foreach ($others as $otherSlug => $other)
+                @foreach ($others as $other)
                     <li data-fade style="--d:{{ $loop->index }}">
-                        @include('portfolio.partials.card', ['slug' => $otherSlug, 'project' => $other])
+                        @include('portfolio.partials.card', ['project' => $other])
                     </li>
                 @endforeach
             </ul>
         </div>
     </section>
 
-    @include('partials.cta-band', ['title' => __('portfolio.cta.title'), 'lead' => __('portfolio.cta.lead')])
+    @include('partials.cta-band', ['title' => $listing->cta_title, 'lead' => $listing->cta_lead])
 @endsection

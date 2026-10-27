@@ -1,38 +1,21 @@
 <?php
 
-use App\Http\Middleware\SetLocale;
+use App\Http\Controllers\BlogController;
+use App\Http\Controllers\PageController;
+use App\Http\Controllers\PortfolioController;
 use Illuminate\Support\Facades\Route;
 
-$locales = array_keys(config('app.locales'));
-$pages = ['about', 'services', 'portfolio', 'expansion', 'contact', 'blog'];
+// Every page exists once per locale: /about (hy, the default), /ru/about, /en/about. See config/localizer.php.
+Route::localize(function () {
+    Route::get('/', [PageController::class, 'home'])->name('home');
+    Route::get('/about', [PageController::class, 'about'])->name('about');
+    Route::get('/services', [PageController::class, 'services'])->name('services');
+    Route::get('/expansion', [PageController::class, 'expansion'])->name('expansion');
+    Route::get('/contact', [PageController::class, 'contact'])->name('contact');
 
-Route::redirect('/', '/'.$locales[0]);
+    Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
+    Route::get('/blog/{post:slug}', [BlogController::class, 'show'])->name('blog.show');
 
-foreach ($pages as $page) {
-    Route::redirect("/{$page}", "/{$locales[0]}/{$page}");
-}
-
-Route::prefix('{locale}')
-    ->whereIn('locale', $locales)
-    ->middleware(SetLocale::class)
-    ->group(function () {
-        Route::view('/', 'home')->name('home');
-        Route::view('/about', 'about')->name('about');
-        Route::view('/services', 'services')->name('services');
-        Route::view('/expansion', 'expansion')->name('expansion');
-        Route::view('/contact', 'contact')->name('contact');
-
-        Route::view('/blog', 'blog.index')->name('blog.index');
-        Route::get('/blog/{slug}', function (string $locale, string $slug) {
-            abort_unless(array_key_exists($slug, config('blog.posts')), 404);
-
-            return view('blog.show', ['slug' => $slug]);
-        })->name('blog.show');
-
-        Route::view('/portfolio', 'portfolio.index')->name('portfolio.index');
-        Route::get('/portfolio/{slug}', function (string $locale, string $slug) {
-            abort_unless(array_key_exists($slug, config('portfolio.projects')), 404);
-
-            return view('portfolio.show', ['slug' => $slug]);
-        })->name('portfolio.show');
-    });
+    Route::get('/portfolio', [PortfolioController::class, 'index'])->name('portfolio.index');
+    Route::get('/portfolio/{project:slug}', [PortfolioController::class, 'show'])->name('portfolio.show');
+});

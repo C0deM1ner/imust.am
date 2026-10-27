@@ -1,7 +1,5 @@
-@php
-    $contact = config('app.contact');
-    $pages = ['home' => 'home', 'about' => 'about', 'services' => 'services', 'portfolio.index' => 'portfolio', 'expansion' => 'expansion', 'blog.index' => 'blog'];
-@endphp
+{{-- $contact comes from App\View\Composers\FooterComposer. --}}
+@php($pages = ['home' => 'home', 'about' => 'about', 'services' => 'services', 'portfolio.index' => 'portfolio', 'expansion' => 'expansion', 'blog.index' => 'blog'])
 
 {{-- ─── Footer: rounded panel, giant wordmark bleeding off the bottom edge ─── --}}
 <footer class="site-footer">
@@ -37,8 +35,8 @@
                 <div class="site-footer-office">
                     <h2 class="site-footer-title">{{ __('common.footer_office') }}</h2>
                     <address class="site-footer-address">
-                        <span class="text-paper">{{ __('common.address') }}</span>
-                        <span>{{ implode(', ', __('contact.office.lines')) }}</span>
+                        <span class="text-paper">{{ $contact['address'] }}</span>
+                        <span>{{ implode(', ', $contact['officeLines']) }}</span>
                         <a href="tel:{{ preg_replace('/\s+/', '', $contact['phone']) }}">{{ $contact['phone'] }}</a>
                     </address>
                 </div>

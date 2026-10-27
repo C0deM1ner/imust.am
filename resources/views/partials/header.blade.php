@@ -20,7 +20,7 @@
         <nav class="site-nav" aria-label="Main">
             @foreach ($navLinks as $route => $label)
                 <a href="{{ route($route) }}" class="site-nav-link"
-                   @if (request()->routeIs(str_replace('.index', '.*', $route))) aria-current="page" @endif>{{ $label }}</a>
+                   @if (Str::is(str_replace('.index', '.*', $route), Route::currentBaseName())) aria-current="page" @endif>{{ $label }}</a>
             @endforeach
         </nav>
 
@@ -54,7 +54,7 @@
     <nav class="mobile-menu-nav" aria-label="Mobile">
         @foreach ($navLinks as $route => $label)
             <a href="{{ route($route) }}" class="mobile-menu-link" style="--i:{{ $loop->index }}"
-               @if (request()->routeIs(str_replace('.index', '.*', $route))) aria-current="page" @endif>
+               @if (Str::is(str_replace('.index', '.*', $route), Route::currentBaseName())) aria-current="page" @endif>
                 <span>{{ $label }}</span>
                 <i class="ph ph-arrow-right" aria-hidden="true"></i>
             </a>

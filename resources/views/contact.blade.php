@@ -1,37 +1,33 @@
 @extends('layouts.app')
 
-@section('title', __('contact.meta_title'))
-@section('description', __('contact.meta_description'))
-
 @php
-    $email = config('app.contact.email');
-    $phone = config('app.contact.phone');
-    $packages = ['start' => 'Start', 'grow' => 'Grow', 'maintain' => 'Maintain'];
-    $mapUrl = 'https://www.google.com/maps/search/?api=1&query='.urlencode('Avan, Yerevan, Armenia');
+    $packages = App\Nova\Templates\ServicesPage::PACKAGES;
     $lineIcons = ['ph-stairs', 'ph-door-open', 'ph-tree'];
 @endphp
+
+@section('title', $content->meta_title ?: $content->title)
+@section('description', $content->meta_description ?: __('common.meta_description'))
 
 @section('content')
     {{-- ─── Split screen: office photo with details (left), form (right). Stacks on mobile. ─── --}}
     <section class="contact-split">
         {{-- Office panel --}}
         <div class="contact-office">
-            {{-- TODO: AI-generated photo (Gemini). Replace with a real photo of the office entrance in Avan. --}}
-            <x-cinema-media :src="asset('images/site/contact-office.webp')" :alt="__('contact.office.image_alt')" variant="office" width="765" height="1024" />
+            <x-cinema-media :src="img($content->office_image)" :alt="$content->office_image_alt" variant="office" width="765" height="1024" />
 
             <h1 class="contact-title" data-reveal>
-                {{ __('contact.title') }}
+                {{ $content->hero_title }}
             </h1>
-            <p class="contact-lead" data-reveal style="--d:1">{{ __('contact.lead') }}</p>
+            <p class="contact-lead" data-reveal style="--d:1">{{ $content->hero_lead }}</p>
 
             <div class="glass-pill contact-card" data-reveal style="--d:2">
                 <div class="contact-card-grid">
                     <div>
                         <p class="contact-card-label">{{ __('contact.office.title') }}</p>
                         <address class="contact-address">
-                            <span class="contact-address-city">{{ __('contact.office.city') }}</span>
+                            <span class="contact-address-city">{{ $address }}</span>
                             <ul class="contact-address-lines">
-                                @foreach (__('contact.office.lines') as $line)
+                                @foreach (lines($content->office_lines) as $line)
                                     <li>
                                         <i class="ph-light {{ $lineIcons[$loop->index] ?? 'ph-check' }}" aria-hidden="true"></i>
                                         {{ $line }}

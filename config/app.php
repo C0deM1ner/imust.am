@@ -78,34 +78,19 @@ return [
     |
     */
 
-    'locale' => env('APP_LOCALE', 'en'),
+    'locale' => env('APP_LOCALE', 'hy'),
 
-    'fallback_locale' => env('APP_FALLBACK_LOCALE', 'en'),
+    'fallback_locale' => env('APP_FALLBACK_LOCALE', 'hy'),
 
     'faker_locale' => env('APP_FAKER_LOCALE', 'en_US'),
-
-    /*
-    |--------------------------------------------------------------------------
-    | Site Locales
-    |--------------------------------------------------------------------------
-    |
-    | Languages the site is published in, keyed by URL prefix. The first one
-    | is the default that "/" redirects to. Values are switcher labels.
-    |
-    */
-
-    'locales' => [
-        'hy' => 'Հայ',
-        'ru' => 'Рус',
-        'en' => 'Eng',
-    ],
 
     /*
     |--------------------------------------------------------------------------
     | Agency Contact Details
     |--------------------------------------------------------------------------
     |
-    | Shown in the footer and on the contact page.
+    | Shown in the footer and on the contact page until the matching fields are
+    | filled in on the Nova settings page (see the setting() helper).
     | TODO: replace the placeholder phone number and social URLs with real ones.
     |
     */

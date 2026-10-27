@@ -4,7 +4,7 @@
         @apply inline-flex items-center gap-8 text-ps font-semibold text-paper/80 transition-colors hover:text-paper;
     }
 
-    // Long-form text: blog posts and portfolio projects (no typography plugin; blocks come from lang files).
+    // Long-form text of blog posts (CKEditor HTML) and portfolio projects; there is no typography plugin.
     .article-body {
         @apply max-w-[68ch] text-pm-mobile text-paper/85 md:text-pm lg:col-span-8;
 

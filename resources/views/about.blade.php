@@ -1,41 +1,37 @@
 @extends('layouts.app')
 
-@section('title', __('about.meta_title'))
-@section('description', __('about.meta_description'))
-
 @php
-    $founders = __('about.founders.people');
+    $founders = array_column($content->founders ?? [], 'attributes');
     $roleIcons = ['ph-megaphone', 'ph-code', 'ph-film-slate'];
 
-    // TODO: replace placeholder portraits (picsum.photos) with real photos of the founders and partners,
-    // and '#' with links to their portfolios. The hero photo is AI-generated (Gemini).
-    $founderLinks = ['marketing' => '#', 'development' => '#', 'video' => '#'];
-    $heroImage = asset('images/site/about-hero.webp');
-    // The slider shows the latest portfolio projects.
-    $projects = array_slice(config('portfolio.projects'), 0, 5, true);
+    // TODO: upload real photos of the founders and partners in Nova; until then these placeholders show.
+    $placeholderPhoto = fn (string $seed, int $w, int $h) => "https://picsum.photos/seed/{$seed}/{$w}/{$h}?grayscale";
 @endphp
+
+@section('title', $content->meta_title ?: $content->title)
+@section('description', $content->meta_description ?: __('common.meta_description'))
 
 @section('content')
     {{-- ─── Hero: full-bleed photo, statement and the union equation across the bottom ─── --}}
     <section class="page-hero">
-        <x-cinema-media :src="$heroImage" :alt="__('about.image_alt')" />
+        <x-cinema-media :src="img($content->hero_image)" :alt="$content->hero_image_alt" />
 
         <div class="container about-hero-content">
-            <p class="eyebrow" data-reveal>{{ __('about.eyebrow') }}</p>
+            <p class="eyebrow" data-reveal>{{ $content->hero_eyebrow }}</p>
             <h1 class="hero-title max-w-5xl" data-reveal style="--d:1">
-                {{ __('about.title') }}
+                {{ $content->hero_title }}
             </h1>
-            <p class="hero-lead" data-reveal style="--d:2">{{ __('about.lead') }}</p>
+            <p class="hero-lead" data-reveal style="--d:2">{{ $content->hero_lead }}</p>
 
             <div class="about-equation">
                 <p class="about-equation-line">
-                    @foreach ($founders as $id => $founder)
-                        <a href="#{{ $id }}" class="about-equation-term" data-reveal style="--d:{{ 3 + $loop->index }}">{{ $founder['discipline'] }}</a>
+                    @foreach ($founders as $founder)
+                        <a href="#founder-{{ $loop->iteration }}" class="about-equation-term" data-reveal style="--d:{{ 3 + $loop->index }}">{{ $founder['discipline'] }}</a>
                         <span class="text-primary" aria-hidden="true">{{ $loop->last ? '=' : '+' }}</span>
                     @endforeach
                     <span class="about-equation-result" data-reveal style="--d:6">I&nbsp;MUST</span>
                 </p>
-                <p class="about-equation-hint">{{ __('about.equation_hint') }}</p>
+                <p class="about-equation-hint">{{ $content->equation_hint }}</p>
             </div>
         </div>
     </section>
@@ -44,11 +40,11 @@
     <section class="about-structure">
         <div class="container about-structure-grid">
             <div class="about-structure-intro" data-reveal>
-                <h2 class="section-heading">{{ __('about.structure.title') }}</h2>
-                <p class="about-structure-lead">{{ __('about.structure.lead') }}</p>
+                <h2 class="section-heading">{{ $content->structure_title }}</h2>
+                <p class="about-structure-lead">{{ $content->structure_lead }}</p>
             </div>
             <ul class="about-roles">
-                @foreach (__('about.structure.roles') as $role)
+                @foreach (array_column($content->structure_roles ?? [], 'attributes') as $role)
                     <li class="about-role" data-reveal style="--d:{{ $loop->index }}">
                         <i class="ph-light {{ $roleIcons[$loop->index] ?? 'ph-user' }} about-role-icon" aria-hidden="true"></i>
                         <div>
@@ -65,15 +61,15 @@
     <section class="about-founders">
         <div class="container">
             <div class="about-founders-head" data-reveal>
-                <p class="eyebrow">{{ __('about.founders.eyebrow') }}</p>
-                <h2 class="section-heading section-heading-xl mt-16">{{ __('about.founders.title') }}</h2>
+                <p class="eyebrow">{{ $content->founders_eyebrow }}</p>
+                <h2 class="section-heading section-heading-xl mt-16">{{ $content->founders_title }}</h2>
             </div>
 
             <div class="about-founders-grid">
-                @foreach ($founders as $id => $founder)
-                    <article id="{{ $id }}" class="about-founder">
-                        <a href="{{ $founderLinks[$id] ?? '#' }}" class="photo-card founder-card" data-reveal style="--d:{{ $loop->index }}">
-                            <img src="https://picsum.photos/seed/imust-founder-{{ $id }}/900/1200?grayscale" width="900" height="1200" loading="lazy" alt="" class="photo-card-img">
+                @foreach ($founders as $founder)
+                    <article id="founder-{{ $loop->iteration }}" class="about-founder">
+                        <a href="{{ $founder['link'] ?? '#' ?: '#' }}" class="photo-card founder-card" data-reveal style="--d:{{ $loop->index }}">
+                            <img src="{{ img($founder['photo'] ?? null) ?: $placeholderPhoto('imust-founder-'.$loop->index, 900, 1200) }}" width="900" height="1200" loading="lazy" alt="" class="photo-card-img">
                             <div class="photo-card-shade" aria-hidden="true"></div>
 
                             <span class="glass-pill arrow-badge" aria-hidden="true">
@@ -98,14 +94,14 @@
     <section class="about-network">
         <div class="container">
             <div class="section-head about-network-head" data-reveal>
-                <h2 class="about-network-title">{{ __('about.network.title') }}</h2>
-                <p class="about-network-lead">{{ __('about.network.lead') }}</p>
+                <h2 class="about-network-title">{{ $content->network_title }}</h2>
+                <p class="about-network-lead">{{ $content->network_lead }}</p>
             </div>
             <ul class="about-network-grid">
-                @foreach (__('about.network.people') as $person)
+                @foreach (array_column($content->network_people ?? [], 'attributes') as $person)
                     <li data-reveal style="--d:{{ $loop->index }}">
-                        <a href="#" class="photo-card network-card">
-                            <img src="https://picsum.photos/seed/imust-network-{{ $loop->index }}/600/600?grayscale" width="600" height="600" loading="lazy" alt="" class="photo-card-img">
+                        <a href="{{ $person['link'] ?? '#' ?: '#' }}" class="photo-card network-card">
+                            <img src="{{ img($person['photo'] ?? null) ?: $placeholderPhoto('imust-network-'.$loop->index, 600, 600) }}" width="600" height="600" loading="lazy" alt="" class="photo-card-img">
                             <div class="photo-card-shade" aria-hidden="true"></div>
                             <p class="network-card-name">{{ $person['name'] }}</p>
                             <p class="network-card-role">{{ $person['role'] }}</p>
@@ -120,8 +116,8 @@
     <section class="about-projects" data-gallery>
         <div class="container section-head" data-reveal>
             <div>
-                <h2 class="section-heading section-heading-xl">{{ __('about.projects.title') }}</h2>
-                <p class="about-projects-lead">{{ __('about.projects.lead') }}</p>
+                <h2 class="section-heading section-heading-xl">{{ $content->projects_title }}</h2>
+                <p class="about-projects-lead">{{ $content->projects_lead }}</p>
             </div>
             <div class="gallery-arrows">
                 <button type="button" data-gallery-prev class="glass-pill gallery-arrow" aria-label="{{ __('about.projects.prev') }}">
@@ -136,14 +132,14 @@
         <div class="container">
             <div class="swiper" data-gallery-swiper>
                 <ul class="swiper-wrapper">
-                    @foreach ($projects as $slug => $project)
+                    @foreach ($projects as $project)
                         <li class="swiper-slide project-slide" data-reveal style="--d:{{ min($loop->index, 3) }}">
-                            <a href="{{ route('portfolio.show', ['slug' => $slug]) }}" class="photo-card project-card">
-                                <img src="{{ asset($project['image']) }}" width="1024" height="687" loading="lazy" alt="" class="photo-card-img">
+                            <a href="{{ route('portfolio.show', $project) }}" class="photo-card project-card">
+                                <img src="{{ img($project->cover) }}" width="1024" height="687" loading="lazy" alt="" class="photo-card-img">
                                 <div class="photo-card-shade" aria-hidden="true"></div>
-                                <p class="project-card-category">{{ __("portfolio.tags.{$project['tags'][0]}") }}</p>
+                                <p class="project-card-category">{{ $project->tags->first()?->name }}</p>
                                 <p class="project-card-title">
-                                    {{ __("portfolio.projects.{$slug}.title") }}
+                                    {{ $project->title }}
                                     <i class="ph ph-arrow-up-right" aria-hidden="true"></i>
                                 </p>
                             </a>
@@ -154,5 +150,5 @@
         </div>
     </section>
 
-    @include('partials.cta-band', ['title' => __('about.cta.title')])
+    @include('partials.cta-band', ['title' => $content->cta_title])
 @endsection

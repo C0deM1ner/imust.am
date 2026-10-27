@@ -1,29 +1,26 @@
 @extends('layouts.app')
 
-@section('title', __('blog.meta_title'))
-@section('description', __('blog.meta_description'))
-
-@php
-    $slugs = array_keys(config('blog.posts'));
-    $latest = array_shift($slugs);
-@endphp
+@section('title', $content->meta_title ?: $content->title)
+@section('description', $content->meta_description ?: __('common.meta_description'))
 
 @section('content')
     <section class="blog-list">
         <div class="container">
-            @include('partials.page-intro', ['eyebrow' => __('blog.eyebrow'), 'title' => __('blog.title'), 'lead' => __('blog.lead')])
+            @include('partials.page-intro', ['eyebrow' => $content->hero_eyebrow, 'title' => $content->hero_title, 'lead' => $content->hero_lead])
 
             {{-- ─── Latest post: wide card ─── --}}
-            <div data-reveal style="--d:3">
-                @include('blog.partials.card', ['slug' => $latest, 'featured' => true])
-            </div>
+            @if ($latest)
+                <div data-reveal style="--d:3">
+                    @include('blog.partials.card', ['post' => $latest, 'featured' => true])
+                </div>
+            @endif
 
             {{-- ─── The rest of the posts ─── --}}
-            @if ($slugs)
+            @if ($posts->isNotEmpty())
                 <ul class="post-grid blog-list-grid">
-                    @foreach ($slugs as $slug)
+                    @foreach ($posts as $post)
                         <li data-fade style="--d:{{ $loop->index % 3 }}">
-                            @include('blog.partials.card', ['slug' => $slug])
+                            @include('blog.partials.card', ['post' => $post, 'featured' => false])
                         </li>
                     @endforeach
                 </ul>
@@ -31,5 +28,5 @@
         </div>
     </section>
 
-    @include('partials.cta-band', ['title' => __('home.cta.title'), 'lead' => __('home.cta.lead')])
+    @include('partials.cta-band', ['title' => $content->cta_title, 'lead' => $content->cta_lead])
 @endsection

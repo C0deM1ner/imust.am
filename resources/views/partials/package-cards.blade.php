@@ -1,14 +1,20 @@
+{{-- Pricing cards (home + services). Expects $services, the services page content (one Nova tab per package).
+     $showDetails links each card to its section on the services page; off on that page itself. --}}
 @php
-    // Shared pricing cards (home + services). Text comes from lang/{locale}/services.php.
-    // $showDetails: link each card to its section on the services page (off on the services page itself).
-    $showDetails = $showDetails ?? true;
-    $packageTiers = ['start' => 'Start', 'grow' => 'Grow', 'maintain' => 'Maintain'];
+    $showDetails ??= true;
+    $packageTiers = App\Nova\Templates\ServicesPage::PACKAGES;
     $packageIcons = ['start' => 'ph-rocket-launch', 'grow' => 'ph-trend-up', 'maintain' => 'ph-shield-check'];
 @endphp
 
 <div class="package-cards">
     @foreach ($packageTiers as $key => $tier)
-        @php($copy = __("services.items.{$key}"))
+        @php
+            $copy = [];
+            foreach (['summary', 'price', 'cadence', 'price_note', 'description', 'groups'] as $field) {
+                $copy[$field] = $services->{"{$key}_{$field}"} ?? null;
+            }
+            $groups = $copy['groups'] ?? [];
+        @endphp
         <article id="{{ $key }}" class="package-card" data-fade style="--d:{{ $loop->index }}">
             <div class="package-card-body">
                 <i class="ph-light {{ $packageIcons[$key] }} package-card-icon" aria-hidden="true"></i>
@@ -41,13 +47,13 @@
             <div class="package-card-features">
                 <p class="package-card-included">{{ __('home.packages.included') }}</p>
                 <div class="package-card-groups">
-                    @foreach ($copy['groups'] as $group => $features)
+                    @foreach ($groups as $group)
                         <div>
-                            @if (count($copy['groups']) > 1)
-                                <p class="package-card-group">{{ $group }}</p>
+                            @if (count($groups) > 1)
+                                <p class="package-card-group">{{ $group['attributes']['title'] ?? '' }}</p>
                             @endif
                             <ul class="package-card-list">
-                                @foreach ($features as $feature)
+                                @foreach (lines($group['attributes']['features'] ?? '') as $feature)
                                     <li>
                                         <i class="ph-light ph-check" aria-hidden="true"></i>
                                         {{ $feature }}
