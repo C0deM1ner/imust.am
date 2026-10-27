@@ -1,0 +1,30 @@
+@layer components {
+    // Closing call to action shared by the inner pages.
+    .cta-band {
+        @apply py-80 md:py-120;
+
+        &-panel {
+            @apply relative overflow-hidden rounded-card bg-primary px-28 py-48 text-ink md:px-64 md:py-72;
+        }
+
+        &-grid {
+            @apply grid gap-32 lg:grid-cols-12 lg:items-end;
+        }
+
+        &-text {
+            @apply lg:col-span-8;
+        }
+
+        &-title {
+            @apply text-[30px] font-bold leading-tight tracking-tight md:text-[48px];
+        }
+
+        &-lead {
+            @apply mt-16 max-w-[52ch] text-pm-mobile text-ink/75 md:text-pm;
+        }
+
+        &-action {
+            @apply lg:col-span-4 lg:flex lg:justify-end;
+        }
+    }
+}

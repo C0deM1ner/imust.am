@@ -1,0 +1,216 @@
+@layer components {
+    // ─── Hero: statement and the "union" equation across the bottom ──────────────
+
+    .about-hero-content {
+        @apply pb-40 pt-144 md:pb-64;
+    }
+
+    .about-equation {
+        @apply mt-48 border-t border-white/15 pt-28 md:mt-72 md:pt-40;
+
+        &-line {
+            @apply flex flex-wrap items-baseline gap-x-14 gap-y-2 text-[34px] font-bold leading-[1.08] tracking-[-0.03em] md:gap-x-24 md:text-[60px] xl:text-[88px];
+        }
+
+        &-term {
+            @apply decoration-primary decoration-[3px] underline-offset-[10px] transition-colors hover:text-primaryLight hover:underline;
+        }
+
+        &-result {
+            @apply whitespace-nowrap text-primary;
+        }
+
+        &-hint {
+            @apply mt-16 text-ps text-paper/60;
+        }
+    }
+
+    // ─── Team structure: statement left, roles right ─────────────────────────────
+
+    .about-structure {
+        @apply py-96 md:py-144;
+
+        &-grid {
+            @apply grid gap-48 lg:grid-cols-12 lg:gap-32;
+        }
+
+        &-intro {
+            @apply lg:col-span-5;
+        }
+
+        &-lead {
+            @apply mt-20 max-w-[44ch] text-p text-muted md:text-pm;
+        }
+    }
+
+    .about-roles {
+        @apply flex flex-col lg:col-span-6 lg:col-start-7;
+    }
+
+    .about-role {
+        @apply flex gap-20 border-t border-white/10 py-28 md:gap-28 md:py-36;
+
+        &:last-child {
+            @apply border-b;
+        }
+
+        &-icon {
+            @apply text-[40px] leading-none text-primary;
+        }
+
+        &-title {
+            @apply text-h4 font-bold md:text-[28px];
+        }
+
+        &-text {
+            @apply mt-8 text-p text-muted md:text-pm;
+        }
+    }
+
+    // ─── Founders: tall photo cards ───────────────────────────────────────────────
+
+    .about-founders {
+        @apply pb-96 md:pb-144;
+
+        &-head {
+            @apply pb-40 md:pb-56;
+        }
+
+        &-grid {
+            @apply grid gap-20 md:gap-24 lg:grid-cols-3;
+        }
+    }
+
+    // The #anchor target stays untransformed; only the card inside it animates.
+    .about-founder {
+        @apply scroll-mt-[112px];
+    }
+
+    .founder-card {
+        @apply min-h-[440px] rounded-[24px] border border-white/10 p-24 sm:min-h-[520px] md:p-28 lg:aspect-[3/4.4] lg:min-h-0;
+
+        .photo-card-shade {
+            @apply via-ink/50;
+        }
+
+        &-discipline {
+            @apply text-ps font-semibold text-primary;
+        }
+
+        &-name {
+            @apply mt-6 text-[28px] font-bold leading-tight md:text-[32px];
+        }
+
+        &-position {
+            @apply mt-4 text-p text-paper/80;
+        }
+    }
+
+    .founder-bio {
+        &-text {
+            @apply pt-16 text-p text-paper/75;
+        }
+
+        &-link {
+            @apply mt-16 text-ps font-semibold text-paper;
+        }
+    }
+
+    // ─── Developers and partners ──────────────────────────────────────────────────
+
+    .about-network {
+        @apply pb-96 md:pb-144;
+
+        &-head {
+            @apply gap-12 pb-32 md:pb-40;
+        }
+
+        &-title {
+            @apply text-[28px] font-bold leading-tight tracking-tight md:text-[40px];
+        }
+
+        &-lead {
+            @apply max-w-[44ch] text-p text-muted;
+        }
+
+        &-grid {
+            @apply grid grid-cols-2 gap-16 md:grid-cols-4 md:gap-24;
+        }
+    }
+
+    .network-card {
+        @apply aspect-square rounded-[20px] border border-white/10 p-16 md:p-20;
+
+        .photo-card-img {
+            @apply opacity-80;
+        }
+
+        &:hover .photo-card-img {
+            @apply opacity-100;
+        }
+
+        &-name {
+            @apply text-ps font-semibold leading-tight sm:text-p;
+        }
+
+        &-role {
+            @apply text-ps text-paper/70;
+        }
+    }
+
+    // ─── Projects: Swiper slider (components/gallery.js) ──────────────────────────
+
+    // The slider sits in the page container with overflow visible, so the first slide lines up
+    // with the heading and the rest run off the right edge.
+    .about-projects {
+        @apply overflow-hidden pb-96 md:pb-144;
+
+        .swiper {
+            @apply overflow-visible;
+        }
+
+        &-lead {
+            @apply mt-16 max-w-[48ch] text-p text-muted md:text-pm;
+        }
+    }
+
+    .project-slide.swiper-slide {
+        @apply w-[80vw] sm:w-[420px] lg:w-[460px] xl:w-[520px];
+    }
+
+    .project-card {
+        @apply aspect-[4/5] rounded-[24px] border border-white/10 p-24 md:p-28;
+
+        &-category {
+            @apply text-ps font-semibold text-primary;
+        }
+
+        &-title {
+            @apply mt-6 flex items-center justify-between gap-12 text-[24px] font-bold leading-tight md:text-[28px];
+
+            i {
+                @apply text-[24px] text-paper/70 transition-transform duration-300;
+            }
+        }
+
+        &:hover &-title i {
+            @apply -translate-y-4 translate-x-4;
+        }
+    }
+}
+
+// Founder card bio: always shown on touch / small screens; slides up on hover or focus on desktop.
+@media (hover: hover) and (min-width: 1024px) {
+    .founder-bio {
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        transition: max-height .6s cubic-bezier(.16, 1, .3, 1), opacity .4s ease;
+    }
+
+    .founder-card:hover .founder-bio,
+    .founder-card:focus-visible .founder-bio {
+        max-height: 260px;
+        opacity: 1;
+    }
+}

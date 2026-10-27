@@ -1,0 +1,31 @@
+@layer components {
+    // Card with a full-bleed photo and text at the bottom (home team, founders, network, projects).
+    .photo-card {
+        @apply relative isolate flex flex-col justify-end overflow-hidden;
+
+        &-img {
+            @apply absolute inset-0 -z-1 h-full w-full object-cover transition duration-700 ease-out;
+        }
+
+        &-shade {
+            @apply absolute inset-0 -z-1 bg-gradient-to-t from-ink via-ink/30 to-ink/0;
+        }
+
+        &:hover .photo-card-img {
+            @apply scale-[1.05];
+        }
+    }
+
+    // Round glass arrow in the card's top-right corner; turns to point up-right on hover.
+    .arrow-badge {
+        @apply absolute right-20 top-20 grid h-48 w-48 place-items-center rounded-full transition-transform duration-300;
+
+        i {
+            @apply text-[20px];
+        }
+    }
+
+    .photo-card:hover .arrow-badge {
+        @apply rotate-[-45deg];
+    }
+}

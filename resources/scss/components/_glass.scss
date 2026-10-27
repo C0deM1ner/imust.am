@@ -1,0 +1,23 @@
+@use '../abstracts/mixins' as *;
+
+@layer components {
+    .glass-pill {
+        @include glass;
+    }
+
+    .site-header.is-scrolled .glass-pill {
+        @apply bg-ink/75;
+    }
+}
+
+@supports not (backdrop-filter: blur(1px)) {
+    .glass-pill {
+        @apply bg-surface;
+    }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+    .glass-pill {
+        @apply bg-surface backdrop-blur-none;
+    }
+}

@@ -1,0 +1,45 @@
+@layer components {
+    // ─── Offerings: full-width photo panels that stack as you scroll ─────────────
+    // Each <li> is position: sticky and sticks a little lower than the previous one (inline top),
+    // so the stack edges stay visible.
+
+    .expansion-offerings {
+        @apply py-96 md:py-144;
+
+        &-list {
+            @apply flex flex-col gap-24 md:gap-40;
+        }
+    }
+
+    .expansion-panel {
+        @apply relative isolate flex min-h-[68dvh] flex-col justify-end overflow-hidden rounded-[24px] border border-white/10 bg-surface p-24 shadow-[0_-20px_60px_rgba(5,7,10,0.6)] md:min-h-[72dvh] md:p-48 xl:p-64;
+
+        &-img {
+            @apply absolute inset-0 -z-1 h-full w-full object-cover;
+        }
+
+        &-shade {
+            @apply absolute inset-0 -z-1 bg-gradient-to-t from-ink via-ink/50 to-ink/10;
+        }
+
+        &-grid {
+            @apply grid gap-20 md:grid-cols-12 md:items-end;
+        }
+
+        &-heading {
+            @apply md:col-span-8;
+        }
+
+        &-icon {
+            @apply text-[48px] leading-none text-primary;
+        }
+
+        &-title {
+            @apply mt-16 text-[32px] font-bold leading-[1.05] tracking-tight md:text-[52px] xl:text-[64px];
+        }
+
+        &-text {
+            @apply text-p text-paper/80 md:col-span-4 md:text-pm;
+        }
+    }
+}

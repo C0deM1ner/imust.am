@@ -1,0 +1,91 @@
+@layer components {
+    // Pricing cards shared by home and services (views/partials/package-cards.blade.php).
+    // Each card is a 2-row subgrid so the top sections and dividers line up across cards.
+    .package-cards {
+        @apply mx-auto grid max-w-xl gap-20 lg:max-w-none lg:grid-cols-3 lg:grid-rows-[auto_auto] lg:gap-24;
+    }
+
+    .package-card {
+        @apply grid scroll-mt-[128px] overflow-hidden rounded-[24px] border border-white/20 bg-surface lg:row-span-2 lg:grid-rows-subgrid;
+
+        &-body {
+            @apply flex flex-col p-28 md:p-36;
+        }
+
+        &-icon {
+            @apply text-[56px] leading-none text-paper;
+        }
+
+        &-name {
+            @apply mt-28 text-[28px] font-semibold leading-tight;
+        }
+
+        &-summary {
+            @apply mt-4 text-p text-muted md:text-pm;
+        }
+
+        &-price {
+            @apply mt-28 flex flex-wrap items-end gap-x-12 gap-y-4;
+        }
+
+        &-amount {
+            @apply text-[32px] font-semibold leading-none tracking-tight md:text-[36px];
+        }
+
+        &-cadence {
+            @apply pb-2 text-ps leading-snug text-muted;
+        }
+
+        &-note {
+            @apply mt-28 flex gap-12 rounded-[14px] border border-line bg-ink/60 p-16;
+
+            i {
+                @apply mt-2 text-[20px] text-paper/80;
+            }
+
+            p {
+                @apply text-ps text-paper/85;
+            }
+        }
+
+        &-actions {
+            @apply mt-auto pt-28;
+        }
+
+        &-button {
+            @apply flex h-52 items-center justify-center rounded-[14px] bg-paper text-p font-semibold text-ink transition-colors hover:bg-white active:scale-[0.99];
+        }
+
+        &-details {
+            @apply mt-12 block text-center text-ps text-muted underline-offset-4 transition-colors hover:text-paper hover:underline;
+        }
+
+        &-features {
+            @apply border-t border-line p-28 md:p-36;
+        }
+
+        &-included {
+            @apply text-p text-paper/90;
+        }
+
+        &-groups {
+            @apply mt-12 flex flex-col gap-16;
+        }
+
+        &-group {
+            @apply mb-6 text-ps font-semibold text-muted;
+        }
+
+        &-list {
+            @apply flex flex-col gap-8;
+
+            li {
+                @apply flex gap-12 text-p text-paper/80;
+            }
+
+            i {
+                @apply mt-2 text-[18px] text-muted;
+            }
+        }
+    }
+}

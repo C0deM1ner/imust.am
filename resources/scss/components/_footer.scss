@@ -1,0 +1,107 @@
+@layer components {
+    // Rounded panel inset like the header bar; giant wordmark bleeds off the bottom edge.
+    .site-footer {
+        @apply px-12 pb-12 md:px-16 md:pb-16;
+
+        &-panel {
+            @apply relative isolate overflow-hidden rounded-[28px] border border-line bg-surface;
+        }
+
+        &-glow {
+            @apply pointer-events-none absolute -top-160 right-0 -z-1 h-[420px] w-[620px] rounded-full bg-primary/10 blur-[120px];
+        }
+
+        &-inner {
+            @apply pt-56 md:pt-80;
+        }
+
+        &-grid {
+            @apply grid gap-48 lg:grid-cols-12 lg:gap-32;
+        }
+
+        &-contact {
+            @apply lg:col-span-5;
+        }
+
+        &-pages,
+        &-social {
+            @apply lg:col-span-2;
+        }
+
+        &-office {
+            @apply lg:col-span-3;
+        }
+
+        &-tagline {
+            @apply max-w-sm text-p text-muted;
+        }
+
+        &-email {
+            @apply mt-20 inline-flex items-center gap-12 text-[28px] font-bold tracking-tight transition-colors hover:text-primary md:text-[40px];
+
+            i {
+                @apply text-[24px] transition-transform duration-300 md:text-[32px];
+            }
+
+            &:hover i {
+                @apply -translate-y-4 translate-x-4;
+            }
+        }
+
+        &-title {
+            @apply text-ps font-semibold text-paper;
+        }
+
+        &-links {
+            @apply mt-16 flex flex-col gap-10;
+
+            a {
+                @apply text-p text-muted transition-colors hover:text-paper;
+            }
+        }
+
+        &-address {
+            @apply mt-16 flex flex-col gap-10 text-p not-italic text-muted;
+
+            a {
+                @apply w-fit transition-colors hover:text-paper;
+            }
+        }
+
+        &-socials {
+            @apply mt-16 flex flex-wrap gap-8;
+        }
+
+        &-bottom {
+            @apply relative z-1 mt-56 flex flex-col gap-16 border-t border-line pt-20 md:mt-80 md:flex-row md:items-center md:justify-between;
+
+            p {
+                @apply text-ps text-muted;
+            }
+        }
+
+        &-top {
+            @apply inline-flex w-fit items-center gap-8 text-ps font-semibold text-muted transition-colors hover:text-paper;
+        }
+
+        &-wordmark {
+            @apply pointer-events-none mt-32 flex select-none justify-between whitespace-nowrap px-12 font-bold md:px-16;
+            font-size: 26vw;
+            line-height: .74;
+            letter-spacing: -.05em;
+
+            // Gradient per letter so each one fades out towards the bottom edge. The gradient only
+            // paints inside each span's box, so the box gets room on every side (cancelled by
+            // negative margins): the tight line-height and letter-spacing make glyphs bigger than it.
+            span {
+                @apply inline-block;
+                padding: .12em .1em .08em;
+                margin: -.12em -.1em -.08em;
+                background: linear-gradient(to bottom, rgba(236, 238, 242, .16), rgba(236, 238, 242, 0) 85%);
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+            }
+        }
+    }
+}

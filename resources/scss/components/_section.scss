@@ -1,0 +1,15 @@
+@layer components {
+    // Large section title. Add .section-heading-xl for the biggest size on wide screens.
+    .section-heading {
+        @apply text-[34px] font-bold leading-[1.05] tracking-tight md:text-[56px];
+
+        &.section-heading-xl {
+            @apply xl:text-[72px];
+        }
+    }
+
+    // Title on the left, short text or a button on the right (stacked on mobile).
+    .section-head {
+        @apply flex flex-col justify-between gap-20 pb-40 md:flex-row md:items-end md:pb-56;
+    }
+}

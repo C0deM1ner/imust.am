@@ -1,0 +1,8 @@
+// Shared mixins (no CSS output). Pull in with `@use '../abstracts/mixins' as *;`.
+
+// Web approximation of a frosted-glass surface (not Apple's Liquid Glass).
+@mixin glass {
+    @apply border border-white/10 bg-ink/45 backdrop-blur-xl backdrop-saturate-150;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08), 0 12px 40px rgba(5, 7, 10, .35);
+    transition: background-color .3s ease;
+}

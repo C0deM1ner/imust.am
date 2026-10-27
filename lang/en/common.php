@@ -17,6 +17,7 @@ return [
 
     'home_label' => 'I MUST, home page',
     'toggle_menu' => 'Menu',
+    'close_menu' => 'Close menu',
     'language' => 'Language',
     'footer_tagline' => 'A union of experienced specialists in marketing, development and video.',
     'address' => 'Avan, Yerevan',

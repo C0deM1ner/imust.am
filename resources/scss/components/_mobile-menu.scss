@@ -1,0 +1,73 @@
+@layer components {
+    // Full-screen overlay (toggled with .is-open by components/mobileMenu.js). visibility keeps it
+    // out of taps and the tab order while closed; the delay lets the fade-out finish first.
+    // Layer: above the header.
+    .mobile-menu {
+        @apply fixed inset-0 z-[110] flex flex-col overflow-y-auto overscroll-contain bg-ink lg:hidden;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity .3s ease, visibility 0s linear .3s;
+
+        &.is-open {
+            opacity: 1;
+            visibility: visible;
+            transition: opacity .3s ease;
+        }
+
+        // Mirrors the header bar so the close button lands exactly where the menu button was.
+        &-top {
+            @apply p-12 md:p-16;
+        }
+
+        &-bar {
+            @apply flex h-64 items-center justify-between px-12 md:h-80 md:px-24;
+        }
+
+        &-close {
+            @apply grid h-44 w-44 cursor-pointer touch-manipulation place-items-center rounded-full bg-white/10 text-paper;
+
+            i {
+                @apply pointer-events-none text-[22px];
+            }
+        }
+
+        &-nav {
+            @apply flex flex-1 flex-col justify-center px-24 py-32 md:px-40;
+        }
+
+        &-link {
+            @apply flex items-center justify-between gap-12 border-b border-white/10 py-18 text-[clamp(24px,8vw,32px)] font-bold leading-tight tracking-tight text-paper md:text-[44px];
+            opacity: 0;
+            transform: translateY(16px);
+            transition: opacity .5s cubic-bezier(.16, 1, .3, 1), transform .5s cubic-bezier(.16, 1, .3, 1);
+
+            &[aria-current='page'] {
+                @apply text-primary;
+            }
+
+            span {
+                @apply min-w-0;
+            }
+
+            i {
+                @apply shrink-0 text-[24px] text-muted;
+            }
+        }
+
+        &-footer {
+            @apply flex flex-col gap-16 px-24 pb-32 md:px-40 md:pb-40;
+        }
+    }
+
+    .mobile-menu.is-open .mobile-menu-link {
+        opacity: 1;
+        transform: none;
+        transition-delay: calc(80ms + var(--i, 0) * 50ms);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .mobile-menu-link {
+        transition: none;
+    }
+}

@@ -1,0 +1,8 @@
+// Page scroll lock while an overlay is open (components/disableScroll.js). position: fixed is
+// what actually stops iOS Safari from scrolling the page underneath; --st holds the scroll offset.
+body.noscroll {
+    position: fixed;
+    top: var(--st, 0);
+    inset-inline: 0;
+    overflow: hidden;
+}

@@ -1,0 +1,49 @@
+@layer components {
+    // Full-bleed hero photo (views/components/cinema-media.blade.php).
+    .cinema-media {
+        @apply absolute inset-0 -z-1;
+
+        img {
+            @apply h-full w-full object-cover;
+        }
+
+        &-shade,
+        &-gradient {
+            @apply absolute inset-0;
+        }
+
+        // ─── Overlay variants ───
+
+        &-home {
+            .cinema-media-shade { @apply bg-ink/40; }
+            .cinema-media-gradient { @apply bg-gradient-to-t from-ink via-ink/30 to-ink/60; }
+        }
+
+        &-article {
+            .cinema-media-shade { @apply bg-ink/45; }
+            .cinema-media-gradient { @apply bg-gradient-to-t from-ink via-ink/40 to-ink/60; }
+        }
+
+        &-office {
+            .cinema-media-shade { @apply bg-ink/40; }
+            .cinema-media-gradient { @apply bg-gradient-to-t from-ink via-ink/50 to-ink/30; }
+        }
+
+        &-page {
+            .cinema-media-shade { @apply bg-ink/45; }
+            .cinema-media-gradient { @apply bg-gradient-to-b from-ink/80 via-ink/20 to-ink; }
+        }
+
+        &-studio {
+            .cinema-media-shade { @apply bg-ink/40; }
+            .cinema-media-gradient { @apply bg-gradient-to-b from-ink/80 via-ink/20 to-ink/80; }
+        }
+    }
+}
+
+// Slow settle-in zoom.
+@media (prefers-reduced-motion: no-preference) {
+    .cinema-media img {
+        animation: hero-settle 2.4s cubic-bezier(.16, 1, .3, 1) both;
+    }
+}

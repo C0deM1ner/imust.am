@@ -1,0 +1,70 @@
+@use '../abstracts/mixins' as *;
+
+@layer components {
+    // Invisible strip at the top of the page; components/header.js watches it to toggle .is-scrolled.
+    .header-sentinel {
+        @apply pointer-events-none absolute inset-x-0 top-0 h-8;
+    }
+
+    // ─── Header ───────────────────────────────────────────────────────────────────
+
+    // Fixed over the page top. Layer: z-100 (the mobile menu sits above it).
+    .site-header {
+        @apply fixed inset-x-0 top-0 z-100 p-12 md:p-16;
+
+        &-bar {
+            @apply mx-auto grid h-64 grid-cols-[1fr_auto] items-center gap-12 rounded-[22px] border border-transparent px-12 transition-colors duration-300 md:h-80 md:px-24 lg:grid-cols-[1fr_auto_1fr];
+        }
+
+        &-actions {
+            @apply flex items-center justify-end gap-8;
+        }
+
+        &-cta {
+            @apply hidden py-12 lg:inline-flex lg:px-18 xl:px-28;
+        }
+
+        &-burger {
+            @apply grid h-44 w-44 cursor-pointer touch-manipulation place-items-center rounded-full bg-ink/25 text-paper backdrop-blur-md lg:hidden;
+
+            i {
+                @apply pointer-events-none text-[22px];
+            }
+        }
+    }
+
+    // Transparent at the top of the page, glass once it scrolls.
+    .site-header.is-scrolled .site-header-bar {
+        @include glass;
+        @apply bg-ink/75;
+    }
+
+    // ─── Logo ─────────────────────────────────────────────────────────────────────
+
+    .site-logo {
+        @apply flex w-fit items-center gap-10;
+
+        &-mark {
+            @apply grid h-40 w-40 place-items-center rounded-btn-small bg-paper text-ps font-bold text-ink;
+        }
+
+        // Hidden at lg, where the centered nav needs the room.
+        &-text {
+            @apply text-p font-bold tracking-[0.16em] lg:hidden xl:inline;
+        }
+    }
+
+    // ─── Desktop nav ──────────────────────────────────────────────────────────────
+
+    .site-nav {
+        @apply hidden items-center gap-4 rounded-btn bg-ink/25 p-5 backdrop-blur-md lg:flex;
+
+        &-link {
+            @apply whitespace-nowrap rounded-btn px-12 py-10 text-ps font-semibold text-paper/80 transition-colors hover:text-paper xl:px-18;
+
+            &[aria-current='page'] {
+                @apply bg-paper text-ink;
+            }
+        }
+    }
+}

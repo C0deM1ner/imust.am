@@ -1,0 +1,10 @@
+// Starts far enough down to clear the bottom headroom of .letter-clip.
+@keyframes letter-rise {
+    from { transform: translateY(130%); }
+    to { transform: none; }
+}
+
+@keyframes hero-settle {
+    from { transform: scale(1.08); }
+    to { transform: none; }
+}

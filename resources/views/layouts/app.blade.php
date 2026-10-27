@@ -24,7 +24,7 @@
     @vite(['resources/scss/app.scss', 'resources/js/app.js'])
 </head>
 <body>
-    <div data-header-sentinel class="pointer-events-none absolute inset-x-0 top-0 h-8" aria-hidden="true"></div>
+    <div data-header-sentinel class="header-sentinel" aria-hidden="true"></div>
 
     @include('partials.header')
 

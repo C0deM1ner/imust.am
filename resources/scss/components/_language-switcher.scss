@@ -1,0 +1,53 @@
+@layer components {
+    // ─── Dropdown (desktop header) ────────────────────────────────────────────────
+
+    .lang-menu {
+        @apply relative;
+
+        &-trigger {
+            @apply flex cursor-pointer list-none items-center gap-6 rounded-btn px-12 py-10 text-ps font-semibold text-paper/80 transition-colors hover:bg-white/5 hover:text-paper;
+
+            &::-webkit-details-marker {
+                @apply hidden;
+            }
+        }
+
+        &-globe {
+            @apply text-[18px];
+        }
+
+        &-caret {
+            @apply text-[12px] transition-transform;
+        }
+
+        &[open] &-caret {
+            @apply rotate-180;
+        }
+
+        &-panel {
+            @apply absolute right-0 top-[calc(100%+12px)] flex min-w-[120px] flex-col rounded-card p-6;
+        }
+
+        &-item {
+            @apply rounded-btn px-14 py-10 text-ps font-semibold text-muted transition-colors hover:bg-white/5 hover:text-paper;
+
+            &.is-active {
+                @apply bg-white/10 text-paper;
+            }
+        }
+    }
+
+    // ─── Inline row (mobile menu) ─────────────────────────────────────────────────
+
+    .lang-inline {
+        @apply flex items-center gap-4 text-ps font-semibold;
+
+        &-item {
+            @apply rounded-btn px-14 py-8 text-muted transition-colors hover:text-paper;
+
+            &.is-active {
+                @apply bg-white/10 text-paper;
+            }
+        }
+    }
+}

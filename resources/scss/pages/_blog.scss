@@ -1,0 +1,217 @@
+@layer components {
+    // ─── Shared: post meta row and card grid ──────────────────────────────────────
+
+    // Category · date · reading time.
+    .post-meta {
+        @apply flex flex-wrap items-center gap-x-8 gap-y-4 text-ps text-muted;
+
+        &-category {
+            @apply font-semibold text-primary;
+        }
+    }
+
+    .post-grid {
+        @apply grid gap-20 md:grid-cols-2 md:gap-24 lg:grid-cols-3;
+    }
+
+    .post-card {
+        @apply flex h-full flex-col overflow-hidden rounded-[24px] border border-white/10 bg-surface transition-colors hover:border-white/25;
+
+        &-media {
+            @apply relative aspect-[16/10] overflow-hidden;
+
+            img {
+                @apply h-full w-full object-cover transition duration-700 ease-out;
+            }
+        }
+
+        &-body {
+            @apply flex flex-1 flex-col p-24 md:p-28;
+        }
+
+        &-title {
+            @apply mt-12 text-[22px] font-bold leading-snug tracking-tight transition-colors md:text-[24px];
+        }
+
+        &-excerpt {
+            @apply mt-10 text-p text-muted;
+        }
+
+        &-more {
+            @apply mt-auto inline-flex items-center gap-8 pt-24 text-ps font-semibold text-paper;
+
+            i {
+                @apply transition-transform duration-300;
+            }
+        }
+
+        &:hover &-media img {
+            @apply scale-[1.04];
+        }
+
+        &:hover &-title {
+            @apply text-primaryLight;
+        }
+
+        &:hover &-more i {
+            @apply translate-x-4;
+        }
+    }
+
+    // ─── Blog index: featured post panel at the bottom of the hero ───────────────
+
+    .blog-featured {
+        @apply grid gap-20 rounded-[24px] p-24 md:grid-cols-12 md:items-end md:p-36;
+
+        &-wrap {
+            @apply pb-24 pt-48 md:pb-40;
+        }
+
+        &-text {
+            @apply md:col-span-8;
+        }
+
+        .post-meta {
+            @apply text-paper/70;
+        }
+
+        &-title {
+            @apply mt-12 text-balance text-[26px] font-bold leading-tight tracking-tight transition-colors md:text-[36px];
+        }
+
+        &-excerpt {
+            @apply mt-10 max-w-[60ch] text-p text-paper/75;
+        }
+
+        &-action {
+            @apply md:col-span-4 md:flex md:justify-end;
+        }
+
+        &:hover &-title {
+            @apply text-primaryLight;
+        }
+
+        &:hover .btn-light {
+            @apply bg-white;
+        }
+    }
+
+    .blog-more {
+        @apply py-96 md:py-144;
+
+        &-title {
+            @apply pb-40 md:pb-56;
+        }
+    }
+
+    // ─── Blog post ────────────────────────────────────────────────────────────────
+
+    .page-hero.blog-post-hero {
+        @apply min-h-[80dvh] md:min-h-[88dvh];
+    }
+
+    .blog-post {
+        &-hero-content {
+            @apply pb-48 pt-144 md:pb-72;
+        }
+
+        &-category {
+            @apply mt-28 text-ps font-semibold text-primary;
+        }
+
+        &-title {
+            @apply mt-12 max-w-5xl text-balance text-[36px] font-bold leading-[1.05] tracking-tight md:text-[56px] xl:text-[68px];
+        }
+
+        &-meta.post-meta {
+            @apply mt-20 text-p text-paper/75;
+        }
+
+        &-body {
+            @apply py-72 md:py-96;
+        }
+
+        &-grid {
+            @apply grid gap-48 lg:grid-cols-12 lg:gap-32;
+        }
+    }
+
+    .blog-back {
+        @apply inline-flex items-center gap-8 text-ps font-semibold text-paper/80 transition-colors hover:text-paper;
+    }
+
+    // Sticky share rail on desktop, a row under the article on mobile.
+    .share-rail {
+        @apply order-last lg:order-first lg:col-span-2;
+
+        &-inner {
+            @apply lg:sticky lg:top-[120px];
+        }
+
+        &-label {
+            @apply text-ps font-semibold text-muted;
+        }
+
+        &-actions {
+            @apply mt-12 flex gap-8 lg:flex-col lg:items-start;
+        }
+
+        &-links {
+            @apply flex gap-8;
+        }
+    }
+
+    .share-copy {
+        @apply inline-flex h-44 items-center gap-8 rounded-[12px] border border-line px-14 text-ps font-semibold text-paper/85 transition-colors hover:border-muted;
+
+        i {
+            @apply text-[18px];
+        }
+    }
+
+    // Article typography (no typography plugin: blocks come from lang/{locale}/blog.php).
+    .article-body {
+        @apply max-w-[68ch] text-pm-mobile text-paper/85 md:text-pm lg:col-span-8;
+
+        > * + * {
+            @apply mt-20;
+        }
+
+        .lead-in {
+            @apply text-[20px] font-medium leading-relaxed text-paper md:text-[24px];
+        }
+
+        h2 {
+            @apply mt-56 text-[26px] font-bold leading-tight tracking-tight text-paper md:text-[32px];
+        }
+
+        p {
+            @apply leading-relaxed;
+        }
+
+        ul {
+            @apply flex flex-col gap-12;
+        }
+
+        li {
+            @apply relative pl-28 leading-relaxed;
+
+            &::before {
+                content: '';
+                @apply absolute left-4 top-[0.7em] h-8 w-8 rounded-full bg-primary;
+            }
+        }
+
+        blockquote {
+            @apply my-40 border-l-2 border-primary pl-24 text-[22px] font-medium leading-snug text-paper md:text-[28px];
+        }
+    }
+
+    .blog-related {
+        @apply border-t border-line py-96 md:py-120;
+
+        &-title {
+            @apply text-[30px] font-bold leading-tight tracking-tight md:text-[44px];
+        }
+    }
+}

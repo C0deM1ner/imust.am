@@ -1,0 +1,21 @@
+@layer components {
+    // ─── Hero: package names spread edge to edge across the bottom ────────────────
+
+    .tier-words {
+        @apply flex flex-wrap items-end justify-between gap-x-[3vw] px-12 font-bold text-paper md:px-16;
+        font-size: 10.5vw;
+        line-height: .8;
+        letter-spacing: -.05em;
+        margin-bottom: 0;
+
+        a {
+            @apply transition-colors duration-300 hover:text-primary focus-visible:text-primary;
+        }
+    }
+
+    // ─── Packages ─────────────────────────────────────────────────────────────────
+
+    .services-packages {
+        @apply pb-40 pt-96 md:pt-144;
+    }
+}

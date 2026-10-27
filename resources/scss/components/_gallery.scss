@@ -1,0 +1,19 @@
+@layer components {
+    // Round glass arrow buttons that drive a Swiper slider.
+    .gallery-arrows {
+        @apply flex gap-8;
+    }
+
+    .gallery-arrow {
+        @apply grid h-56 w-56 place-items-center rounded-full transition-colors hover:bg-paper hover:text-ink;
+
+        i {
+            @apply text-[20px];
+        }
+
+        // Swiper sets .is-disabled at either end.
+        &.is-disabled {
+            @apply pointer-events-none opacity-30;
+        }
+    }
+}

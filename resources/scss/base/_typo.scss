@@ -1,0 +1,5 @@
+@layer components {
+    .eyebrow {
+        @apply text-ps font-semibold uppercase tracking-[0.18em] text-primary;
+    }
+}

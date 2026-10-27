@@ -1,0 +1,55 @@
+@use '../abstracts/mixins' as *;
+
+@layer components {
+    .btn {
+        @apply inline-flex items-center justify-center gap-10 whitespace-nowrap rounded-btn px-24 py-14 text-ps font-semibold transition duration-200 active:scale-[0.98] md:px-28 md:text-p;
+    }
+
+    .btn-primary {
+        @apply bg-primary text-ink hover:bg-primaryLight;
+    }
+
+    .btn-glass {
+        @include glass;
+        @apply text-paper hover:bg-ink/70;
+    }
+
+    .link-arrow {
+        @apply inline-flex items-center gap-8 font-semibold text-paper transition-colors hover:text-primary;
+
+        i {
+            @apply transition-transform duration-200;
+        }
+
+        &:hover i {
+            @apply translate-x-4;
+        }
+    }
+}
+
+@layer components {
+    // Light and dark button variants (used next to .btn).
+    .btn-light {
+        @apply bg-paper text-ink hover:bg-white;
+    }
+
+    .btn-dark {
+        @apply bg-ink text-paper hover:bg-surface;
+    }
+
+    // Round outlined icon link: footer socials, blog share buttons.
+    .icon-link {
+        @apply grid h-44 w-44 place-items-center rounded-full border border-line text-paper/80 transition-colors hover:border-primary hover:bg-primary hover:text-ink;
+
+        i {
+            @apply text-[20px];
+        }
+    }
+}
+
+@layer components {
+    // Bigger button for the closing call to action.
+    .btn-lg {
+        @apply px-36 py-18 md:px-36 md:text-pl;
+    }
+}

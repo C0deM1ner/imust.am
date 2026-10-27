@@ -1,0 +1,27 @@
+@layer components {
+    // Full-height cinematic hero: photo behind (x-cinema-media), content at the bottom.
+    .page-hero {
+        @apply relative isolate flex min-h-[100dvh] flex-col justify-end overflow-hidden;
+
+        // Title at the top, something else (wordmark, featured post) at the bottom.
+        &.page-hero-split {
+            @apply justify-between;
+        }
+
+        &-top {
+            @apply pt-144 md:pt-180;
+        }
+    }
+
+    .hero-title {
+        @apply mt-16 text-balance text-[40px] font-bold leading-[1.02] tracking-tight md:text-[64px] xl:text-[80px];
+    }
+
+    .hero-lead {
+        @apply mt-16 max-w-[52ch] text-p text-paper/80 md:text-pm;
+
+        &.hero-lead-narrow {
+            @apply max-w-[48ch];
+        }
+    }
+}

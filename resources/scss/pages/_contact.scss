@@ -1,0 +1,110 @@
+@layer components {
+    // Split screen: office photo with details (left), form (right). Stacks on mobile.
+    .contact-split {
+        @apply grid grid-cols-1 gap-12 p-12 md:gap-16 md:p-16 lg:min-h-[100dvh] lg:grid-cols-2;
+    }
+
+    // ─── Office panel ─────────────────────────────────────────────────────────────
+
+    .contact-office {
+        @apply relative isolate flex min-h-[80dvh] flex-col justify-end overflow-hidden rounded-[28px] p-24 pt-120 md:p-40 md:pt-144 lg:min-h-0 xl:p-56;
+    }
+
+    .contact-title {
+        @apply max-w-[14ch] text-balance text-[40px] font-bold leading-[1.02] tracking-tight md:text-[64px] xl:text-[76px];
+    }
+
+    .contact-lead {
+        @apply mt-16 max-w-[40ch] text-p text-paper/80 md:text-pm;
+    }
+
+    .contact-card {
+        @apply mt-32 rounded-[22px] p-20 md:mt-40 md:p-28;
+
+        &-grid {
+            @apply grid gap-24 sm:grid-cols-2;
+        }
+
+        &-label {
+            @apply text-ps font-semibold text-primary;
+        }
+    }
+
+    .contact-address {
+        @apply mt-8 not-italic;
+
+        &-city {
+            @apply block text-h5 font-bold;
+        }
+
+        &-lines {
+            @apply mt-12 flex flex-col gap-8;
+
+            li {
+                @apply flex items-center gap-10 text-p text-paper/85;
+            }
+
+            i {
+                @apply text-[20px] text-primary;
+            }
+        }
+    }
+
+    .contact-details {
+        @apply flex flex-col gap-16;
+
+        dt {
+            @apply text-ps text-paper/60;
+        }
+
+        dd a {
+            @apply text-p font-semibold transition-colors hover:text-primary;
+        }
+    }
+
+    .contact-map-link {
+        @apply inline-flex w-fit items-center gap-8 text-ps font-semibold text-paper transition-colors hover:text-primary;
+
+        i {
+            @apply text-[18px];
+        }
+
+        i:last-child {
+            @apply text-[14px];
+        }
+    }
+
+    // ─── Form panel (UI only: components/contactForm.js validates; no backend yet) ─
+
+    .contact-form-panel {
+        @apply flex flex-col justify-center rounded-[28px] border border-white/10 bg-surface p-24 md:p-40 lg:pt-120 xl:p-56 xl:pt-120;
+    }
+
+    .contact-form {
+        @apply mx-auto w-full max-w-[560px];
+
+        &-title {
+            @apply text-[28px] font-bold leading-tight tracking-tight md:text-[36px];
+        }
+
+        &-grid {
+            @apply mt-32 grid gap-20 sm:grid-cols-2;
+        }
+
+        &-wide {
+            @apply sm:col-span-2;
+        }
+
+        &-submit {
+            @apply mt-28 flex h-52 w-full items-center justify-center gap-10 rounded-[14px] bg-paper text-p font-semibold text-ink transition-colors hover:bg-white active:scale-[0.99];
+        }
+
+        &-status {
+            @apply mt-20 rounded-[14px] border border-line bg-ink/60 p-16 text-ps text-paper;
+
+            i {
+                @apply mr-6 text-primary;
+            }
+        }
+    }
+}

@@ -1,0 +1,56 @@
+@layer components {
+    .field-label {
+        @apply text-ps font-semibold text-paper;
+    }
+
+    .field {
+        @apply w-full rounded-[14px] border border-line bg-ink/60 px-16 py-14 text-p text-paper placeholder:text-muted transition-colors hover:border-muted focus:border-primary focus:outline-none;
+    }
+
+    .field[aria-invalid='true'] {
+        @apply border-[#F2877E];
+    }
+
+    .field-error {
+        @apply text-ps text-[#F2877E];
+    }
+}
+
+@layer components {
+    .form-group {
+        @apply flex flex-col gap-8;
+    }
+
+    .field-optional {
+        @apply font-normal text-muted;
+    }
+
+    .field-hint {
+        @apply text-ps text-muted;
+    }
+
+    // Radio buttons shown as selectable pills.
+    .choice-group {
+        @apply mt-8 flex flex-wrap gap-8;
+    }
+
+    .choice {
+        @apply cursor-pointer;
+
+        &-input {
+            @apply sr-only;
+        }
+
+        &-pill {
+            @apply inline-flex h-44 items-center rounded-[12px] border border-line px-16 text-ps font-semibold text-paper/80 transition-colors hover:border-muted;
+        }
+
+        &-input:checked + &-pill {
+            @apply border-paper bg-paper text-ink;
+        }
+
+        &-input:focus-visible + &-pill {
+            @apply ring-2 ring-primary ring-offset-2 ring-offset-surface;
+        }
+    }
+}
