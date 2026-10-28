@@ -4,8 +4,7 @@
     $founders = array_column($content->founders ?? [], 'attributes');
     $roleIcons = ['ph-megaphone', 'ph-code', 'ph-film-slate'];
 
-    // TODO: upload real photos of the founders and partners in Nova; until then these placeholders show.
-    $placeholderPhoto = fn (string $seed, int $w, int $h) => "https://picsum.photos/seed/{$seed}/{$w}/{$h}?grayscale";
+    // TODO: the founder and partner photos are AI-generated (faces hidden). Replace them with real photos in Nova.
 @endphp
 
 @section('title', $content->meta_title ?: $content->title)
@@ -69,7 +68,9 @@
                 @foreach ($founders as $founder)
                     <article id="founder-{{ $loop->iteration }}" class="about-founder">
                         <a href="{{ $founder['link'] ?? '#' ?: '#' }}" class="photo-card founder-card" data-reveal style="--d:{{ $loop->index }}">
-                            <img src="{{ img($founder['photo'] ?? null) ?: $placeholderPhoto('imust-founder-'.$loop->index, 900, 1200) }}" width="900" height="1200" loading="lazy" alt="" class="photo-card-img">
+                            @if ($photo = img($founder['photo'] ?? null))
+                                <img src="{{ $photo }}" width="765" height="1024" loading="lazy" alt="" class="photo-card-img">
+                            @endif
                             <div class="photo-card-shade" aria-hidden="true"></div>
 
                             <span class="glass-pill arrow-badge" aria-hidden="true">
@@ -101,7 +102,9 @@
                 @foreach (array_column($content->network_people ?? [], 'attributes') as $person)
                     <li data-reveal style="--d:{{ $loop->index }}">
                         <a href="{{ $person['link'] ?? '#' ?: '#' }}" class="photo-card network-card">
-                            <img src="{{ img($person['photo'] ?? null) ?: $placeholderPhoto('imust-network-'.$loop->index, 600, 600) }}" width="600" height="600" loading="lazy" alt="" class="photo-card-img">
+                            @if ($photo = img($person['photo'] ?? null))
+                                <img src="{{ $photo }}" width="1024" height="1024" loading="lazy" alt="" class="photo-card-img">
+                            @endif
                             <div class="photo-card-shade" aria-hidden="true"></div>
                             <p class="network-card-name">{{ $person['name'] }}</p>
                             <p class="network-card-role">{{ $person['role'] }}</p>

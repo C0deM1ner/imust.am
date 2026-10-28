@@ -74,10 +74,6 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
             }
 
             return [
-                MenuSection::make('INBOX')
-                    ->path('/resources/contact-requests')
-                    ->icon('inbox'),
-
                 ...$pages,
 
                 MenuSection::make('BLOG POSTS')
@@ -107,6 +103,10 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 MenuSection::make('USERS')
                     ->path('/resources/users')
                     ->icon('users'),
+
+                MenuSection::make('INBOX')
+                    ->path('/resources/contact-requests')
+                    ->icon('inbox'),
             ];
         });
 

@@ -38,6 +38,11 @@ class StaticPage extends Model
     {
         parent::boot();
 
-        static::updated(fn (StaticPage $staticPage) => cache()->forget("static_page_{$staticPage->name}"));
+        static::updated(function (StaticPage $staticPage) {
+            $cacheKey = "static_page_{$staticPage->name}";
+
+            cache()->forget($cacheKey);
+            cache()->forever($cacheKey, $staticPage->getAttributes());
+        });
     }
 }

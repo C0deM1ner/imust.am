@@ -14,7 +14,6 @@ class AppServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
-        // Images uploaded through the Nova file manager are stored as WebP.
         Event::listen(
             FileUploaded::class,
             ConvertToWebpListener::class
