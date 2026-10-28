@@ -3,28 +3,13 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="@yield('description', __('common.meta_description'))">
     <meta name="theme-color" content="#0D0F13">
 
-    <title>@hasSection('full_title')@yield('full_title')@elseif (View::hasSection('title'))@yield('title') | I MUST @else{{ __('common.meta_title') }}@endif</title>
-
-    {{-- SEO tab of the page in Nova (pages pass their page() content as $content). --}}
-    @isset($content)
-        @if (($content->is_indexable ?? true) === false)
-            <meta name="robots" content="noindex">
-        @endif
-        @if ($metaImage = img($content->meta_image ?? null))
-            <meta property="og:image" content="{{ $metaImage }}">
-        @endif
-        @if (! empty($content->meta_keywords))
-            <meta name="keywords" content="{{ $content->meta_keywords }}">
-        @endif
-    @endisset
-
-    @foreach (config('localizer.supported_locales') as $code)
-        <link rel="alternate" hreflang="{{ $code }}" href="{{ Route::localizedUrl($code) }}">
-    @endforeach
-    <link rel="alternate" hreflang="x-default" href="{{ Route::localizedUrl(config('app.fallback_locale')) }}">
+    {{-- Each view sets its tags with <x-meta>; a view without one gets the site defaults. --}}
+    @sectionMissing('meta')
+        <x-meta />
+    @endif
+    @yield('meta')
 
     {{-- Lets CSS hide [data-reveal] content only when JS will reveal it. --}}
     <script>document.documentElement.classList.add('js')</script>

@@ -5,8 +5,7 @@
     $lineIcons = ['ph-stairs', 'ph-door-open', 'ph-tree'];
 @endphp
 
-@section('title', $content->meta_title ?: $content->title)
-@section('description', $content->meta_description ?: __('common.meta_description'))
+<x-meta :page="$content" :image="$content->office_image" />
 
 @section('content')
     {{-- ─── Split screen: office photo with details (left), form (right). Stacks on mobile. ─── --}}

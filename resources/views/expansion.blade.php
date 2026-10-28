@@ -2,8 +2,7 @@
 
 @php($offeringIcons = ['ph-graduation-cap', 'ph-presentation', 'ph-camera', 'ph-video-camera'])
 
-@section('title', $content->meta_title ?: $content->title)
-@section('description', $content->meta_description ?: __('common.meta_description'))
+<x-meta :page="$content" :image="$content->hero_image" />
 
 @section('content')
     {{-- ─── Hero: full-bleed photo, title top-left, giant "Studio" word across the bottom edge ─── --}}

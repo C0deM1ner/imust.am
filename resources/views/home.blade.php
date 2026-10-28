@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
-@section('full_title', $content->meta_title ?: __('common.meta_title'))
-@section('description', $content->meta_description ?: __('common.meta_description'))
+<x-meta :page="$content" :title="__('common.meta_title')" :image="$content->hero_image" />
 
 @section('content')
     {{-- ─── Hero: full-bleed photo, message overlaid, wordmark across the bottom edge ─── --}}

@@ -2,8 +2,7 @@
 
 @php($shown = 0)
 
-@section('title', $content->meta_title ?: $content->title)
-@section('description', $content->meta_description ?: __('common.meta_description'))
+<x-meta :page="$content" />
 
 @section('content')
     {{-- ─── Work: title, tag filter and project grid (components/portfolioFilter.js) ─── --}}

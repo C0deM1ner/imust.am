@@ -7,8 +7,7 @@
     // TODO: the founder and partner photos are AI-generated (faces hidden). Replace them with real photos in Nova.
 @endphp
 
-@section('title', $content->meta_title ?: $content->title)
-@section('description', $content->meta_description ?: __('common.meta_description'))
+<x-meta :page="$content" :image="$content->hero_image" />
 
 @section('content')
     {{-- ─── Hero: full-bleed photo, statement and the union equation across the bottom ─── --}}

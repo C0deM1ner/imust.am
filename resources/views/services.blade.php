@@ -2,8 +2,7 @@
 
 @php($packages = App\Nova\Templates\ServicesPage::PACKAGES)
 
-@section('title', $content->meta_title ?: $content->title)
-@section('description', $content->meta_description ?: __('common.meta_description'))
+<x-meta :page="$content" :image="$content->hero_image" />
 
 @section('content')
     {{-- ─── Hero: full-bleed photo, title top-left, package names across the bottom edge (each jumps to its card) ─── --}}

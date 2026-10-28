@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $content->meta_title ?: $content->title)
-@section('description', $content->meta_description ?: __('common.meta_description'))
+<x-meta :page="$content" />
 
 @section('content')
     <section class="blog-list">

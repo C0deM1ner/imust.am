@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Traits\IsActiveTrait;
+use App\Models\Traits\RegeneratesSitemap;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Oneduo\NovaFileManager\Casts\Asset;
@@ -15,6 +16,7 @@ class Post extends Model
     use HasSlug;
     use HasTranslations;
     use IsActiveTrait;
+    use RegeneratesSitemap;
 
     protected $fillable = [
         'slug',

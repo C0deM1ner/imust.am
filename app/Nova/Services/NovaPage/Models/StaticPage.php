@@ -2,6 +2,7 @@
 
 namespace App\Nova\Services\NovaPage\Models;
 
+use App\Models\Traits\RegeneratesSitemap;
 use Illuminate\Database\Eloquent\Model;
 use Oneduo\NovaFileManager\Casts\Asset;
 use Spatie\Translatable\HasTranslations;
@@ -9,6 +10,7 @@ use Spatie\Translatable\HasTranslations;
 class StaticPage extends Model
 {
     use HasTranslations;
+    use RegeneratesSitemap;
 
     protected array $translatable = [
         'title',

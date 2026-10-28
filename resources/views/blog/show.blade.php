@@ -1,7 +1,12 @@
 @extends('layouts.app')
 
-@section('title', $post->meta_title ?: $post->title)
-@section('description', $post->meta_description ?: $post->excerpt)
+<x-meta
+    :page="$post"
+    :description="$post->excerpt"
+    :image="$post->cover"
+    type="article"
+    :published="$post->published_at"
+/>
 
 @section('content')
     {{-- ─── Hero: full-bleed cover, title and meta at the bottom ─── --}}

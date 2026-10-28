@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Traits\IsActiveTrait;
+use App\Models\Traits\RegeneratesSitemap;
 use App\Models\Traits\SortByOrderTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -19,6 +20,7 @@ class Project extends Model implements Sortable
     use HasSlug;
     use HasTranslations;
     use IsActiveTrait;
+    use RegeneratesSitemap;
     use SortableTrait;
     use SortByOrderTrait;
 
