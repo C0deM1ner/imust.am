@@ -6,6 +6,7 @@
     :image="$post->cover"
     type="article"
     :published="$post->published_at"
+    :schema="$schema"
 />
 
 @section('content')

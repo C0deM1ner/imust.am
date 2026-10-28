@@ -1,4 +1,4 @@
-{{-- SEO, Open Graph and Twitter tags. The SEO tab in Nova ($page->meta_*) wins over the fallbacks a view passes in. --}}
+{{-- SEO, Open Graph, Twitter and schema.org tags. The SEO tab in Nova ($page->meta_*) wins over the fallbacks a view passes in. --}}
 @props([
     'page' => null,
     'title' => null,
@@ -6,6 +6,7 @@
     'image' => null,
     'type' => 'website',
     'published' => null,
+    'schema' => [],
 ])
 @php
     $title = ($page->meta_title ?? null) ?: $title ?: ($page->title ?? null) ?: __('common.meta_title');
@@ -54,4 +55,6 @@
     @else
         <meta name="robots" content="noindex, follow">
     @endif
+
+    {!! App\Support\StructuredData::graph(...$schema)->toScript() !!}
 @endsection

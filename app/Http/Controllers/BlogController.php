@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Support\StructuredData;
 use Illuminate\View\View;
 
 class BlogController extends Controller
@@ -27,6 +28,14 @@ class BlogController extends Controller
             'content' => $post,
             'listing' => page('blog-page'),
             'others' => Post::newestFirst()->whereKeyNot($post->getKey())->take(3)->get(),
+            'schema' => [
+                StructuredData::blogPosting($post),
+                StructuredData::breadcrumbs([
+                    __('common.nav.home') => route('home'),
+                    __('common.nav.blog') => route('blog.index'),
+                    $post->title => $url,
+                ]),
+            ],
             'shareLinks' => [
                 'facebook' => 'https://www.facebook.com/sharer/sharer.php?u='.urlencode($url),
                 'linkedin' => 'https://www.linkedin.com/sharing/share-offsite/?url='.urlencode($url),

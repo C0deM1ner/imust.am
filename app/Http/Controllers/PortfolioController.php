@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use App\Models\Tag;
+use App\Support\StructuredData;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -45,6 +46,14 @@ class PortfolioController extends Controller
             'content' => $project,
             'listing' => page('portfolio-page'),
             'others' => $others,
+            'schema' => [
+                StructuredData::project($project),
+                StructuredData::breadcrumbs([
+                    __('common.nav.home') => route('home'),
+                    __('common.nav.portfolio') => route('portfolio.index'),
+                    $project->title => route('portfolio.show', $project),
+                ]),
+            ],
         ]);
     }
 }

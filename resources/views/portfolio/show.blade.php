@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-<x-meta :page="$project" :description="$project->summary" :image="$project->cover" />
+<x-meta :page="$project" :description="$project->summary" :image="$project->cover" :schema="$schema" />
 
 @section('content')
     {{-- ─── Hero: full-bleed cover, services, title and client at the bottom ─── --}}
