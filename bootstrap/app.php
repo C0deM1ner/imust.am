@@ -15,7 +15,6 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        // The localizer sets the locale before route bindings resolve (see config/localizer.php).
         $middleware->web(remove: [
             SubstituteBindings::class,
         ]);
